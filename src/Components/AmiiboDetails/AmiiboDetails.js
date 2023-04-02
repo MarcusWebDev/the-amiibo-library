@@ -1,0 +1,28 @@
+import React from "react";
+import { useLocation } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import "./AmiiboDetails.css";
+
+const AmiiboDetails = ({amiibo, colorArray}) => {
+    if (!amiibo) 
+        return <LoadingSpinner />;
+
+    return (
+        <div className="amiiboDetailsContainer" >
+            <div className="amiiboDetailsBackground" style={{background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`}} />
+            <h1 className="amiiboDetailsNameHeader">{amiibo.character}</h1>
+            <h2 className="amiiboDetailsSeriesHeader">{amiibo.amiiboSeries}</h2>
+            <img className="amiiboDetailsImage" src={amiibo.image} />
+            <p className="amiiboDetailsDetails"><strong>Original Game Series</strong>: {amiibo.gameSeries}</p>
+            <p className="amiiboDetailsDetails"><strong>Release Dates</strong>:</p>
+            <ul className="amiiboDetailsReleaseDates">
+                <li><strong>North America</strong>: {new Date(amiibo.release.na).toLocaleDateString()}</li>
+                <li><strong>Europe</strong>: {new Date(amiibo.release.eu).toLocaleDateString()}</li>
+                <li><strong>Australia</strong>: {new Date(amiibo.release.au).toLocaleDateString()}</li>
+                <li><strong>Japan</strong>: {new Date(amiibo.release.jp).toLocaleDateString()}</li>
+            </ul>
+        </div>
+    );
+}
+
+export default AmiiboDetails;

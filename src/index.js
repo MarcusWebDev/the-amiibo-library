@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary.js";
+import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
+import AmiiboDetails from "./Components/AmiiboDetails/AmiiboDetails";
+import AmiiboDetailsDataWrapper from './Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -15,7 +17,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/amiibo",
-        element:<AmiiboLibrary />
+        element: <AmiiboLibrary />
+      },
+      {
+        path: "/amiibo/:characterName/:amiiboId/:colorArray",
+        element: <AmiiboDetailsDataWrapper />
       }
     ]
   }
