@@ -1,0 +1,32 @@
+.headerContainer {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background: white;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.headerLogo {
+    margin: 0 10px;;
+    font-size: medium;
+    justify-self: center;
+}
+
+.headerSignInOrOut {
+    margin: 0 10px;
+    font-size: medium;
+}
+
+.headerPlaceholder {
+    width: 50px;
+    margin: 0 10px;
+}

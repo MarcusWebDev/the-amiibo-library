@@ -1,7 +1,39 @@
 .amiiboCardContainer {
+    position: relative;
+    height: 30vh;
+    width: 24vh;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-shadow: 0px 0px 3px;
+    margin: 20px 10px;
+}
 
+.amiiboCardImage {
+    position: relative;
+    height: 100%;
 }
 
 .amiiboCardTextContainer {
+    background: white;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    color: black;
+    border-radius: 0 0 10px 10px;
+    padding: 2px 0;
+}
 
+.amiiboCardNameText {
+    font-family: "Helvetica";
+    font-size: 3vh;
+    margin: 0;
+}
+
+.amiiboCardSeriesText {
+    font-family: "Helvetica";
+    font-size: 2vh;
+    margin: 0;
 }
