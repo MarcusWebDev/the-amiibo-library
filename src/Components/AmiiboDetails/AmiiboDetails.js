@@ -1,11 +1,19 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import TabbedTextBox from "../TabbedTextBox/TabbedTextBox";
 import "./AmiiboDetails.css";
 
 const AmiiboDetails = ({amiibo, colorArray}) => {
+    
+
+
     if (!amiibo) 
         return <LoadingSpinner />;
+
+    let SwitchGames = amiibo.gamesSwitch.map(game => [game.gameName, game.amiiboUsage[0].Usage]);
+    let ThreeDSGames = amiibo.games3DS.map(game => [game.gameName, game.amiiboUsage[0].Usage]);
+    let WiiUGames = amiibo.gamesWiiU.map(game => [game.gameName, game.amiiboUsage[0].Usage]);
 
     return (
         <div className="amiiboDetailsContainer" >
@@ -21,7 +29,13 @@ const AmiiboDetails = ({amiibo, colorArray}) => {
                 <li><strong>Australia</strong>: {new Date(amiibo.release.au).toLocaleDateString()}</li>
                 <li><strong>Japan</strong>: {new Date(amiibo.release.jp).toLocaleDateString()}</li>
             </ul>
+            <p className="amiiboDetailsDetails"><strong>Usages:</strong></p>
+            <div className="amiiboDetailsTextBoxContainer">
+                <TabbedTextBox tabNames={["Switch", "3DS", "Wii U"]} contentArray={[SwitchGames, ThreeDSGames, WiiUGames]}/>
+            </div>
+            
         </div>
+
     );
 }
 

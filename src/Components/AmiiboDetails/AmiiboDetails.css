@@ -10,6 +10,7 @@
     height: 300px;
     width: 100vw;
     z-index: -1;
+    filter: saturate(4);
 }
 
 .amiiboDetailsNameHeader {
@@ -26,9 +27,13 @@
 
 .amiiboDetailsReleaseDates {
     list-style-type: none;
-    margin-top: 5px;
+    margin: 5px;
 }
 
 .amiiboDetailsImage {
     margin-bottom: 10px;
+}
+
+.amiiboDetailsTextBoxContainer {
+    margin-top: 5px;
 }

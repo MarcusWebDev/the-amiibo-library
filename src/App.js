@@ -30,7 +30,7 @@ function App() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    fetch("https://amiiboapi.com/api/amiibo/")
+    fetch("https://amiiboapi.com/api/amiibo/?showusage")
       .then((response) => response.json())
       .then((json) => setAmiiboList(json.amiibo.filter(amiibo => amiibo.type === "Figure")))
       .catch((e) => console.log(e));
