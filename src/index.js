@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
 import AmiiboDetails from "./Components/AmiiboDetails/AmiiboDetails";
 import AmiiboDetailsDataWrapper from './Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper';
+import TermsOfServiceAndPrivacy from './Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/amiibo/:characterName/:amiiboId/:colorArray",
         element: <AmiiboDetailsDataWrapper />
+      },
+      {
+        path: "/termsOfServiceAndPrivacy",
+        element: <TermsOfServiceAndPrivacy />
       }
     ]
   }

@@ -2,7 +2,6 @@ import React from "react";
 import "./TextBox.css";
 
 const TextBox = ({contentArray}) => {
-    console.log(contentArray);
     return (
         <div className="textBoxContainer">
             {

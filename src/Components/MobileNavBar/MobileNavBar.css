@@ -35,7 +35,7 @@
 }
 
 .mobileNavBarWidth {
-    width: 50vw;
+    width: 300px;
 }
 
 .noWidth {
@@ -61,6 +61,51 @@
     margin: 5px 0px;
 }
 
+.mobileNavBarSearch {
+    padding: 5px 10px 5px 25px;
+    border-radius: 8px;
+    background: url("../../Assets/search_icon.svg") no-repeat 2% center;
+    background-size: 18px;
+    border: none;
+    background-color: #EAEAEA;
+}
+
+.mobileNavBarAddRemoveButton {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid black;
+    margin: 10px 0 5px 0;
+    font-size: medium;
+    background: transparent;
+}
+
+.mobileNavBarSortByContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    border-radius: 8px;
+}
+
+.mobileNavBarSortByLabel {
+    pointer-events: none;
+}
+
+.mobileNavBarSelect {
+    border: 1px solid black;
+    font-size: medium;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin: 5px 0;
+}
+
+.mobileNavBarCheckboxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 140px;
+}
 @media (max-width: 1450px) {
     .mobileNavBarHamburger {
         display: block;
