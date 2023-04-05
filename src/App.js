@@ -10,22 +10,89 @@ import { Outlet } from 'react-router-dom';
 function App() {
   const [amiiboList, setAmiiboList] = useState([]);
   const [filteredAmiiboList, setFilteredAmiiboList] = useState([]);
-  const [amiiboBackgroundColors, setAmiiboBackgroundColors] = useState([])
+  const [amiiboBackgroundColors, setAmiiboBackgroundColors] = useState(new Map());
+  const [sortBy, setSortBy] = useState("releaseDate");
+  const [isAscending, setIsAscending] = useState(true);
+  const [searchText, setSearchText] = useState("");
   const [isDesktop, setIsDesktop] = useState(false);
 
-  const filterAmiibos = (searchString) => {
-    setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString)))
-  }
-  const setAmiiboBackgroundColor = (amiibo, color) => {
-    /*let newArray = [...amiiboBackgroundColors];
-    newArray[amiiboList.indexOf(amiibo)] = color;*/
 
+  const filterAmiibos = (searchString) => {
+    setSearchText(searchString);
+    setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString)).sort(amiiboComparator));
+  }
+
+  const amiiboComparator = (a, b) => {
+    if (sortBy == "releaseDate") {
+      if (isAscending) {
+        return new Date(a.release.na) - new Date(b.release.na);
+      }
+      else {
+        return new Date(b.release.na) - new Date(a.release.na);
+      }
+    } 
+    else if (sortBy == "characterName") {
+      if (isAscending) {
+        if (a.character > b.character) {
+          return 1;
+        }
+        else if (a.character < b.character) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      } 
+      else {
+        if (a.character > b.character) {
+          return -1;
+        }
+        else if (a.character < b.character) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      }
+
+    }
+    else if (sortBy == "amiiboSeries") {
+      if (isAscending) {
+        if (a.amiiboSeries > b.amiiboSeries) {
+          return 1;
+        }
+        else if (a.amiiboSeries < b.amiiboSeries) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      } 
+      else {
+        if (a.amiiboSeries > b.amiiboSeries) {
+          return -1;
+        }
+        else if (a.amiiboSeries < b.amiiboSeries) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      }
+    }
+  }
+
+  const setAmiiboBackgroundColor = (amiibo, color) => {
     setAmiiboBackgroundColors((prevState) => {
-      let newArray = [...prevState];
-      newArray[amiiboList.indexOf(amiibo)] = color;
-      return newArray;
+      let newMap = new Map(prevState);
+      newMap.set("" + amiibo.head + amiibo.tail, color);
+      return newMap;
     });
   }
+
+  useEffect(() => {
+    filterAmiibos(searchText);
+  }, [sortBy, isAscending]);
 
   useEffect(() => {
     fetch("https://amiiboapi.com/api/amiibo/?showusage")
@@ -33,8 +100,7 @@ function App() {
       .then((json) => {
         let figures = json.amiibo.filter(amiibo => amiibo.type === "Figure");
         setAmiiboList(figures);
-        setFilteredAmiiboList(figures);
-        setAmiiboBackgroundColors(new Array(figures.length).fill([]));
+        setFilteredAmiiboList(figures.sort(amiiboComparator));
       })
       .catch((e) => console.log(e));
   }, []);
@@ -44,7 +110,7 @@ function App() {
       <Header isDesktop={isDesktop} />
 
       {
-        !isDesktop && <MobileNavBar filterAmiibos={filterAmiibos}/>
+        !isDesktop && <MobileNavBar filterAmiibos={filterAmiibos} setIsAscending={setIsAscending} setSortBy={setSortBy}/>
       }
 
       <Outlet context={{

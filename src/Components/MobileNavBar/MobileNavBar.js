@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./MobileNavBar.css";
 
-const MobileNavBar = ({isSignedIn, filterAmiibos}) => {
+const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) => {
     const [isVisible, setIsVisible] = useState(false);
-
 
     return (
         <div>
@@ -29,16 +28,28 @@ const MobileNavBar = ({isSignedIn, filterAmiibos}) => {
                     <Link to="/amiibo" className="mobileNavBarLink">Amiibo</Link>
                 </div>
                 <h2 className="mobileNavBarH2">Page Tools</h2>
-                <input type="search" placeholder="Search" className="mobileNavBarSearch" onChange={(e) =>filterAmiibos(e.target.value)}/>
+                <input type="search" 
+                    placeholder="Search" 
+                    className="mobileNavBarSearch"
+                    onChange={(e) => filterAmiibos(e.target.value)}
+                />
                 <button className="mobileNavBarAddRemoveButton">Add/Remove</button>
                 <div className="mobileNavBarSortByContainer">
                     <label htmlFor="sortBy" className="mobileNavBarSortByLabel">Sort By: </label>
-                    <select name="sortBy" className="mobileNavBarSelect">
+                    <select 
+                        name="sortBy" 
+                        className="mobileNavBarSelect" 
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
                         <option value="releaseDate">Release Date</option>
-                        <option value="alphabetical">Alphabetical</option>
+                        <option value="characterName">Character Name</option>
+                        <option value="amiiboSeries">Amiibo Series</option>
                     </select>
                 </div>
-                <select name="ascendingOrDescending" className="mobileNavBarSelect">
+                <select name="ascendingOrDescending" 
+                    className="mobileNavBarSelect" 
+                    onChange={(e) => e.target.value == "ascending" ? setIsAscending(true) : setIsAscending(false)}
+                >
                     <option value="ascending" defaultValue>Ascending</option>
                     <option value="descending">Descending</option> 
                 </select>

@@ -13,30 +13,25 @@ const AmiiboCard = ({amiibo}) => {
     const amiiboList = context.amiiboList;
 
     useEffect(() => {
-        let index = amiiboList.indexOf(amiibo);
-        console.log(amiiboBackgroundColors);
-        if (amiiboBackgroundColors[index].length == 0) {
-            console.log ("setting new color for " + amiibo.character + " " + amiibo.amiiboSeries);
+
+        if (amiiboBackgroundColors.get("" + amiibo.head + amiibo.tail) == null) {
             let colorThief = new ColorThief();
 
             if (imageRef.current.complete) {
                 let color = colorThief.getColor(imageRef.current);
-                console.log("image exists, color: " + color);
                 setAmiiboBackgroundColor(amiibo, color);
                 setColorArray(color);
             } else {
                 imageRef.current.addEventListener('load', () => {
                     if (imageRef.current) {
                         let color = colorThief.getColor(imageRef.current);
-                        console.log("image loaded, color: " + color);
                         setAmiiboBackgroundColor(amiibo, color);
                         setColorArray(color);
                     }
                 });
             }
         } else {
-            console.log("reading existing color for " + amiibo.character + " " + amiibo.amiiboSeries);
-            setColorArray(amiiboBackgroundColors[index]);
+            setColorArray(amiiboBackgroundColors.get("" + amiibo.head + amiibo.tail));
         }
         
     }, []);
