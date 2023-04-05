@@ -11,7 +11,7 @@ function App() {
   const [amiiboList, setAmiiboList] = useState([]);
   const [filteredAmiiboList, setFilteredAmiiboList] = useState([]);
   const [amiiboBackgroundColors, setAmiiboBackgroundColors] = useState(new Map());
-  const [sortBy, setSortBy] = useState("releaseDate");
+  const [sortBy, setSortBy] = useState("characterName");
   const [isAscending, setIsAscending] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [isDesktop, setIsDesktop] = useState(false);

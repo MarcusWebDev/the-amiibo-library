@@ -41,9 +41,9 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) =>
                         className="mobileNavBarSelect" 
                         onChange={(e) => setSortBy(e.target.value)}
                     >
-                        <option value="releaseDate">Release Date</option>
                         <option value="characterName">Character Name</option>
                         <option value="amiiboSeries">Amiibo Series</option>
+                        <option value="releaseDate">Release Date</option>
                     </select>
                 </div>
                 <select name="ascendingOrDescending" 
@@ -54,11 +54,11 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) =>
                     <option value="descending">Descending</option> 
                 </select>
                 <div className="mobileNavBarCheckboxes">
-                    <label for="showOwned">Show Owned</label>
+                    <label htmlFor="showOwned">Show Owned</label>
                     <input type="checkbox" name="showOwned" />
                 </div>
                 <div className="mobileNavBarCheckboxes">
-                    <label for="showUnowned">Show Unowned</label>
+                    <label htmlFor="showUnowned">Show Unowned</label>
                     <input type="checkbox" name="showUnowned" />
                 </div>
             </div>
