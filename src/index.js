@@ -5,9 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
-import AmiiboDetails from "./Components/AmiiboDetails/AmiiboDetails";
 import AmiiboDetailsDataWrapper from './Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper';
 import TermsOfServiceAndPrivacy from './Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy';
+import HomePage from './Components/HomePage/HomePage';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element: <HomePage />
+      },
       {
         path: "/amiibo",
         element: <AmiiboLibrary />

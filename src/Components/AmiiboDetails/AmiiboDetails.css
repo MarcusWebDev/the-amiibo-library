@@ -32,6 +32,7 @@
 
 .amiiboDetailsImage {
     margin-bottom: 10px;
+    max-height: 400px;
 }
 
 .amiiboDetailsTextBoxContainer {

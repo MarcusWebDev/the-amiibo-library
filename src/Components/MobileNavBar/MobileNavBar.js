@@ -32,6 +32,7 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) =>
                     placeholder="Search" 
                     className="mobileNavBarSearch"
                     onChange={(e) => filterAmiibos(e.target.value)}
+                    onKeyDown={(e) =>  e.key === "Enter" && setIsVisible(false)}
                 />
                 <button className="mobileNavBarAddRemoveButton">Add/Remove</button>
                 <div className="mobileNavBarSortByContainer">
