@@ -1,11 +1,11 @@
-import logo from './logo.svg';
-import AmiiboCard from "./Components/AmiiboCard/AmiiboCard.js";
+import { Outlet } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 import MobileNavBar from "./Components/MobileNavBar/MobileNavBar.js";
 import Header from "./Components/Header/Header.js";
 import Footer from './Components/Footer/Footer';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Outlet } from 'react-router-dom';
+
 
 function App() {
   const [amiiboList, setAmiiboList] = useState([]);
@@ -15,6 +15,9 @@ function App() {
   const [isAscending, setIsAscending] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [isDesktop, setIsDesktop] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({innerHeight: window.innerHeight, innerWidth: window.innerWidth});
+  const [googleSignInInitialized, setGoogleSignInInitialized] = useState(false);
+  const [user, setUser] = useState(null);
 
 
   const filterAmiibos = (searchString) => {
@@ -90,6 +93,17 @@ function App() {
     });
   }
 
+  const handleCallbackResponse = (response) => {
+    console.log("Encoded JWT ID token: " + response.credential);
+    var userObject = jwt_decode(response.credential);
+    console.log(userObject);
+    setUser(userObject);
+  }
+
+  const handleSignOut = () => {
+    setUser(null);
+  }
+
   useEffect(() => {
     filterAmiibos(searchText);
   }, [sortBy, isAscending]);
@@ -105,9 +119,58 @@ function App() {
       .catch((e) => console.log(e));
   }, []);
 
+  useEffect(() => {
+    let script = document.createElement('script');
+    script.setAttribute("src", "https://accounts.google.com/gsi/client");
+    script.setAttribute("id", "googleScript");
+    script.setAttribute("async", "true");
+    script.setAttribute("defer", "true");
+    script.addEventListener("load", () => {
+      window.google.accounts.id.initialize({
+        client_id: "551904080519-u8me401rq4adum4bvqnafig5dn2e2095.apps.googleusercontent.com",
+        callback: handleCallbackResponse
+      });
+
+      setGoogleSignInInitialized(true);
+    });
+    document.head.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    if (windowDimensions.innerWidth < 1024) {
+      setIsDesktop(false);
+    }
+    else {
+      setIsDesktop(true);
+    }
+  }, [windowDimensions])
+
+  useEffect(() => {
+    if (googleSignInInitialized && user == null) {
+      if (isDesktop) {
+        window.google.accounts.id.renderButton(
+          document.getElementById("headerSignIn"),
+          {theme: "outline", size: "medium"}
+        );
+      }
+      else {
+        window.google.accounts.id.renderButton(
+          document.getElementById("headerSignIn"),
+          {theme: "outline", size: "medium", type: "icon"}
+        );
+      }
+    }
+  }, [isDesktop, googleSignInInitialized, user]);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => setWindowDimensions({innerHeight: window.innerHeight, innerWidth: window.innerWidth}));
+
+    return window.removeEventListener('resize', () => setWindowDimensions({innerHeight: window.innerHeight, innerWidth: window.innerWidth}));
+  }, [])
+
   return (
     <div className="App">
-      <Header isDesktop={isDesktop} />
+      <Header isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
 
       {
         !isDesktop && <MobileNavBar filterAmiibos={filterAmiibos} setIsAscending={setIsAscending} setSortBy={setSortBy}/>

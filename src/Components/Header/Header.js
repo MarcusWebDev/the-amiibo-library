@@ -1,8 +1,8 @@
 import './Header.css';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = ({isDesktop}) => {
-    const [signedIn, setSignedIn] = useState(true);
+const Header = ({isDesktop, user, handleSignOut}) => {
     return (
         <header className="headerContainer">
             {
@@ -11,11 +11,27 @@ const Header = ({isDesktop}) => {
 
             <h1 className="headerLogo">The Amiibo Library</h1>
 
-            {
+            <nav className="headerNavContainer">
+                {
+                    isDesktop && 
+                    <div className="headerLinksContainer">
+                        <Link to="/" className="headerLink">Home</Link>
+                        <Link to="/amiibo" className="headerLink">Amiibo</Link>
+                        {user && <Link to="/myCollection" className="headerLink">My Collection</Link>}
+                    </div>
+                        
+                }
+                {
+                    user ? <img src={user.picture} onClick={handleSignOut} className="headerProfilePicture" /> : <div id="headerSignIn"/>
+                }
+                
+            </nav>
+            
+            {/*
                 signedIn 
                 ? <p className="headerSignInOrOut">Sign Out</p>
                 : <p className="headerSignInOrOut">Sign In</p>
-            }
+            */}
         </header>
     );
 }

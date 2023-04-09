@@ -40,7 +40,9 @@ const AmiiboCard = ({amiibo}) => {
         <Link 
             to={`/amiibo/${amiibo.character}/${amiibo.head}${amiibo.tail}/${JSON.stringify(colorArray)}`} 
             className="amiiboCardContainer" 
-            style={{background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`}}
+            style={{
+                background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`,
+            }}
         >
             <img className="amiiboCardImage" src={amiibo.image} ref={imageRef} crossOrigin="anonymous"/>
             <div className="amiiboCardTextContainer">

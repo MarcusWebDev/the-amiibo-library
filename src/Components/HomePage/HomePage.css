@@ -10,13 +10,11 @@
 .homePageFirstCarouselImage {
     max-height: 400px;
 }
+
 .homePageCollectionHeader {
     font-size: 40px;
 }
 
 .homePageCollectionCarousel {
     margin-left: 40px;
-}
-.react-multi-carousel-list {
-    padding-left: 0;
 }

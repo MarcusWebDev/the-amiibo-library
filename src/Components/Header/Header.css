@@ -16,7 +16,7 @@
 }
 
 .headerLogo {
-    margin: 0 10px;;
+    margin: 0 25px;;
     font-size: medium;
     justify-self: center;
 }
@@ -24,6 +24,31 @@
 .headerSignInOrOut {
     margin: 0 10px;
     font-size: medium;
+}
+
+.headerNavContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.headerLinksContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.headerLink {
+    margin-right: 25px;
+    color: black;
+}
+
+.headerProfilePicture {
+    border-radius: 80px;
+    height: 40px;
+    cursor: pointer;
 }
 
 .headerPlaceholder {
