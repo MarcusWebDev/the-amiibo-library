@@ -8,6 +8,7 @@ import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
 import AmiiboDetailsDataWrapper from './Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper';
 import TermsOfServiceAndPrivacy from './Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy';
 import HomePage from './Components/HomePage/HomePage';
+import RequireAuthentication from './Components/RequireAuthentication/RequireAuthentication';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,11 +24,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/amiibo",
-        element: <AmiiboLibrary />
+        element: <AmiiboLibrary header={"Amiibo"}/>
       },
       {
         path: "/amiibo/:characterName/:amiiboId/:colorArray",
         element: <AmiiboDetailsDataWrapper />
+      },
+      {
+        path: "/mycollection",
+        element: <RequireAuthentication component={<AmiiboLibrary header={"My Collection"} showAddRemove={true} showOwnedUnowned={true} />}/>
       },
       {
         path: "/termsOfServiceAndPrivacy",

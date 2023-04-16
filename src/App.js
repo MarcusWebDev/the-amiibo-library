@@ -177,10 +177,15 @@ function App() {
       }
 
       <Outlet context={{
+        user: user,
         amiiboList: amiiboList, 
         filteredAmiiboList: filteredAmiiboList, 
         amiiboBackgroundColors: amiiboBackgroundColors,
-        setAmiiboBackgroundColor: setAmiiboBackgroundColor}}
+        setAmiiboBackgroundColor: setAmiiboBackgroundColor,
+        isDesktop: isDesktop,
+        setSortBy: setSortBy,
+        setIsAscending: setIsAscending,
+        filterAmiibos: filterAmiibos}}
       />
       <Footer />
     </div>

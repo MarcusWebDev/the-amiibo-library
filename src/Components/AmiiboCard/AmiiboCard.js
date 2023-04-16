@@ -10,7 +10,6 @@ const AmiiboCard = ({amiibo}) => {
     const [colorArray, setColorArray] = useState([255, 255, 255]);
     const amiiboBackgroundColors = context.amiiboBackgroundColors;
     const setAmiiboBackgroundColor = context.setAmiiboBackgroundColor;
-    const amiiboList = context.amiiboList;
 
     useEffect(() => {
 

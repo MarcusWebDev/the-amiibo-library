@@ -79,27 +79,6 @@
     background: transparent;
 }
 
-.mobileNavBarSortByContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    border-radius: 8px;
-}
-
-.mobileNavBarSortByLabel {
-    pointer-events: none;
-}
-
-.mobileNavBarSelect {
-    border: 1px solid black;
-    font-size: medium;
-    border-radius: 8px;
-    padding: 5px 10px;
-    margin: 5px 0;
-}
-
 .mobileNavBarCheckboxes {
     display: flex;
     flex-direction: row;

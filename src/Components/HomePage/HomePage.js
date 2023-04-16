@@ -10,43 +10,40 @@ import "./HomePage.css";
 
 const HomePage = () => {
     const amiiboList = useOutletContext().amiiboList;
-    const amiiboBackgroundColors = useOutletContext().amiiboBackgroundColors;
     const sortedAmiiboList = new Array(amiiboList)[0].sort((a, b) => new Date(b.release.na) - new Date(a.release.na)).slice(0, 7);
     const responsiveLarge = {
         all : {
-            breakpoint: { max: 4000, min: 0},
+            breakpoint: { max: 4000, min: 0 },
             items: 1
         }
     };
 
     const responsiveSmall = {
         largeDesktop: {
-            breakpoint: { max: 4000, min: 1450},
+            breakpoint: { max: 4000, min: 1450 },
             items: 6
         },
         desktop: {
-            breakpoint: { max: 1450, min: 1225},
+            breakpoint: { max: 1450, min: 1225 },
             items: 5
         },
         smallDesktop: {
-            breakpoint: { max: 1225, min: 1024},
+            breakpoint: { max: 1225, min: 1024 },
             items: 4
         },
         tablet: {
-            breakpoint: { max: 1024, min: 750},
+            breakpoint: { max: 1024, min: 750 },
             items: 3
         },
         smallTablet: {
-            breakpoint: { max: 750, min: 560},
+            breakpoint: { max: 750, min: 560 },
             items: 2
         },
         mobile: {
-            breakpoint: { max: 560, min: 0},
+            breakpoint: { max: 560, min: 0 },
             items: 1
         }
     };
-
-
 
 
     return (

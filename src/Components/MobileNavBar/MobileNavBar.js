@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import OrderBySelect from "../OrderBySelect/OrderBySelect";
+import SortBySelect from "../SortBySelect/SortBySelect";
 import "./MobileNavBar.css";
 
 const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) => {
@@ -35,25 +37,8 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) =>
                     onKeyDown={(e) =>  e.key === "Enter" && setIsVisible(false)}
                 />
                 <button className="mobileNavBarAddRemoveButton">Add/Remove</button>
-                <div className="mobileNavBarSortByContainer">
-                    <label htmlFor="sortBy" className="mobileNavBarSortByLabel">Sort By: </label>
-                    <select 
-                        name="sortBy" 
-                        className="mobileNavBarSelect" 
-                        onChange={(e) => setSortBy(e.target.value)}
-                    >
-                        <option value="characterName">Character Name</option>
-                        <option value="amiiboSeries">Amiibo Series</option>
-                        <option value="releaseDate">Release Date</option>
-                    </select>
-                </div>
-                <select name="ascendingOrDescending" 
-                    className="mobileNavBarSelect" 
-                    onChange={(e) => e.target.value == "ascending" ? setIsAscending(true) : setIsAscending(false)}
-                >
-                    <option value="ascending" defaultValue>Ascending</option>
-                    <option value="descending">Descending</option> 
-                </select>
+                <SortBySelect setSortBy={setSortBy}/>
+                <OrderBySelect setIsAscending={setIsAscending} />
                 <div className="mobileNavBarCheckboxes">
                     <label htmlFor="showOwned">Show Owned</label>
                     <input type="checkbox" name="showOwned" />
