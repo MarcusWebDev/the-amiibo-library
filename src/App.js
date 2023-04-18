@@ -19,8 +19,8 @@ function App() {
   const [googleSignInInitialized, setGoogleSignInInitialized] = useState(false);
   const [user, setUser] = useState(null);
 
-
-  const filterAmiibos = (searchString) => {
+  const filterAmiibos = (initialString) => {
+    let searchString = initialString.toLowerCase();
     setSearchText(searchString);
     setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString)).sort(amiiboComparator));
   }
@@ -83,7 +83,11 @@ function App() {
         }
       }
     }
+    else {
+      console.log("Error: invalid sortBy");
+    }
   }
+  
 
   const setAmiiboBackgroundColor = (amiibo, color) => {
     setAmiiboBackgroundColors((prevState) => {
@@ -94,9 +98,7 @@ function App() {
   }
 
   const handleCallbackResponse = (response) => {
-    console.log("Encoded JWT ID token: " + response.credential);
-    var userObject = jwt_decode(response.credential);
-    console.log(userObject);
+    var userObject = jwt_decode(response.credential);;
     setUser(userObject);
   }
 
@@ -106,15 +108,61 @@ function App() {
 
   useEffect(() => {
     filterAmiibos(searchText);
+  }, [amiiboList]);
+
+  useEffect(() => {
+    if (user != null) {
+      fetch("http://localhost:4000/signIn", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          email: user.email
+        })
+      })
+      .then(() => {
+        return fetch(`http://localhost:4000/amiibo/${user.email}`, {
+          method: "GET"
+        });
+      })
+      .then(async (response) => {
+         let responseObject = {
+          status: response.status,
+          json: await response.json()
+        }
+
+        return responseObject;
+      })
+      .then(({status, json}) => {
+        let newArray = [...amiiboList];
+        for (let i = 0; i < amiiboList.length; i++) {
+          if (status == 200 && json.includes("" + amiiboList[i].head + amiiboList[i].tail)) {
+            newArray[i].collected = true;
+          }
+          else {
+            newArray[i].collected = false;
+          }
+        }
+
+        setAmiiboList(newArray);
+        const sortedNewArray = [...newArray].sort(amiiboComparator);
+        setFilteredAmiiboList(sortedNewArray);
+      })
+      .catch((e) => console.log(e));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    filterAmiibos(searchText);
   }, [sortBy, isAscending]);
 
   useEffect(() => {
     fetch("https://amiiboapi.com/api/amiibo/?showusage")
       .then((response) => response.json())
       .then((json) => {
-        let figures = json.amiibo.filter(amiibo => amiibo.type === "Figure");
+        const figures = json.amiibo.filter(amiibo => amiibo.type === "Figure");
         setAmiiboList(figures);
-        setFilteredAmiiboList(figures.sort(amiiboComparator));
+        const sortedFigures = [...figures].sort(amiiboComparator)
+        setFilteredAmiiboList(sortedFigures);
       })
       .catch((e) => console.log(e));
   }, []);
@@ -179,13 +227,16 @@ function App() {
       <Outlet context={{
         user: user,
         amiiboList: amiiboList, 
+        setAmiiboList: setAmiiboList,
         filteredAmiiboList: filteredAmiiboList, 
         amiiboBackgroundColors: amiiboBackgroundColors,
         setAmiiboBackgroundColor: setAmiiboBackgroundColor,
         isDesktop: isDesktop,
         setSortBy: setSortBy,
         setIsAscending: setIsAscending,
-        filterAmiibos: filterAmiibos}}
+        filterAmiibos: filterAmiibos,
+        searchText: searchText
+        }}
       />
       <Footer />
     </div>

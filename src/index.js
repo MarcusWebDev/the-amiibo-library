@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/amiibo",
-        element: <AmiiboLibrary header={"Amiibo"}/>
+        element: <AmiiboLibrary header={"Amiibo"} showAddRemove={false} showOwnedUnowned={false} isCollection={false}/>
       },
       {
         path: "/amiibo/:characterName/:amiiboId/:colorArray",
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/mycollection",
-        element: <RequireAuthentication component={<AmiiboLibrary header={"My Collection"} showAddRemove={true} showOwnedUnowned={true} />}/>
+        element: <RequireAuthentication component={<AmiiboLibrary header={"My Collection"} showAddRemove={true} showOwnedUnowned={true} isCollection={true} />}/>
       },
       {
         path: "/termsOfServiceAndPrivacy",
