@@ -41,18 +41,43 @@ function App() {
     }
   }
 
-  const toggleSelectedAmiiboCollection = () => {
+  const toggleSelectedAmiiboCollection = async () => {
+    let databaseRequestArray = [];
     let newArray = amiiboList.map((amiibo) => {
         if (selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)) {
-            return {...amiibo, collected: !amiibo.collected}
+            let newAmiibo = {...amiibo, collected: !amiibo.collected};
+            databaseRequestArray.push(newAmiibo);
+            return newAmiibo;
         }
         else {
             return amiibo;
         }
     });
 
+    console.log(databaseRequestArray);
+    let requestComplete = false;
+    
+    await fetch("http://localhost:4000/collection", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        user: user,
+        amiibos: databaseRequestArray
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .then(() => requestComplete = true)
+    .catch((e) => console.log(e));
+
     setSelectedAmiiboIDs(new Set());
-    return newArray;
+
+    if (requestComplete) {
+      return newArray;
+    }
+    else {
+      return amiiboList;
+    }
   }
 
   const amiiboComparator = (a, b) => {
@@ -146,7 +171,7 @@ function App() {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          email: user.email
+          user: user
         })
       })
       .then(() => {

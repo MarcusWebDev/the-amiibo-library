@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useOutletContext } from "react-router-dom";
@@ -10,7 +10,11 @@ import "./HomePage.css";
 
 const HomePage = () => {
     const amiiboList = useOutletContext().amiiboList;
-    const sortedAmiiboList = new Array(amiiboList)[0].sort((a, b) => new Date(b.release.na) - new Date(a.release.na)).slice(0, 7);
+    const numToDisplay = 10;
+    const sortedAmiiboList = new Array(amiiboList)[0].sort((a, b) => new Date(b.release.na) - new Date(a.release.na)).slice(0, 10);
+    const [mostCollected, setMostCollected] = useState([]);
+    const [leastCollected, setLeastCollected] = useState([]);
+
     const responsiveLarge = {
         all : {
             breakpoint: { max: 4000, min: 0 },
@@ -45,6 +49,22 @@ const HomePage = () => {
         }
     };
 
+    useEffect(() => {
+        fetch(`http://localhost:4000/amiibo/mostCollected/${numToDisplay}`, {
+            method: "GET"
+        })
+        .then((response) => response.json())
+        .then((json) => setMostCollected(json))
+    }, [])
+
+    useEffect(() => {
+        fetch(`http://localhost:4000/amiibo/leastCollected/${numToDisplay}`, {
+            method: "GET"
+        })
+        .then((response) => response.json())
+        .then((json) => setLeastCollected(json))
+    }, [])
+
 
     return (
         <div className="homePageContainer">
@@ -61,7 +81,9 @@ const HomePage = () => {
             <h2 className="homePageCollectionHeader">Most Collected</h2>
             <Carousel responsive={responsiveSmall} className="homePageCollectionCarousel">
                 {
-                    sortedAmiiboList.map((amiibo) => {
+                    amiiboList.filter((amiibo) => leastCollected.some((MCAmiibo) => MCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
+                    .sort((a , b) => b.count - a.count)
+                    .map((amiibo) => {
                         return (
                             <AmiiboCard amiibo={amiibo} key={"" + amiibo.head + amiibo.tail}/>
                         );
@@ -71,7 +93,9 @@ const HomePage = () => {
             <h2 className="homePageCollectionHeader">Least Collected</h2>
             <Carousel responsive={responsiveSmall} className="homePageCollectionCarousel">
                 {
-                    sortedAmiiboList.map((amiibo) => {
+                    amiiboList.filter((amiibo) => leastCollected.some((LCAmiibo) => LCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
+                    .sort((a , b) => a.count - b.count)
+                    .map((amiibo) => {
                         return (
                             <AmiiboCard amiibo={amiibo} key={"" + amiibo.head + amiibo.tail}/>
                         );

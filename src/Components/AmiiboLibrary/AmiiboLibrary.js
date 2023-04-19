@@ -45,9 +45,9 @@ const AmiiboLibrary = ({header, showAddRemove, showOwnedUnowned, isCollection}) 
                             addRemoveEnabled && selectedAmiiboIDs.size != 0 && 
                                 <button 
                                     className="amiiboLibraryConfirmChangesButton" 
-                                    onClick={() => {
+                                    onClick={async () => {
                                         setAddRemoveEnabled(false);
-                                        setAmiiboList(toggleSelectedAmiiboCollection());
+                                        setAmiiboList(await toggleSelectedAmiiboCollection());
                                         
                                     }}
                                 >
