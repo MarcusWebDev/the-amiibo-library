@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import AmiiboCard from "../AmiiboCard/AmiiboCard";
 import OrderBySelect from "../OrderBySelect/OrderBySelect";
+import OwnershipCheckbox from "../OwnershipCheckbox/OwnershipCheckbox";
 import SortBySelect from "../SortBySelect/SortBySelect";
 import "./AmiiboLibrary.css";
 
@@ -12,24 +13,24 @@ const AmiiboLibrary = ({header, showAddRemove, showOwnedUnowned, isCollection}) 
     const setSortBy = context.setSortBy;
     const setIsAscending = context.setIsAscending;
     const isDesktop = context.isDesktop;
-    const amiiboList = context.amiiboList;
     const setAmiiboList = context.setAmiiboList;
-    const [addRemoveEnabled, setAddRemoveEnabled] = useState(false);
-    const [selectedAmiiboIDs, setSelectedAmiiboIDs] = useState(new Set());
+    const addRemoveEnabled = context.addRemoveEnabled;
+    const setAddRemoveEnabled = context.setAddRemoveEnabled;
+    const toggleSelectedAmiiboCollection = context.toggleSelectedAmiiboCollection;
+    const selectedAmiiboIDs = context.selectedAmiiboIDs;
+    const setSelectedAmiiboIDs = context.setSelectedAmiiboIDs;
+    const showOwned = context.showOwned;
+    const showUnowned = context.showUnowned;
+    const setShowOwned = context.setShowOwned;
+    const setShowUnowned = context.setShowUnowned;
+    const location = useLocation();
 
-    const toggleSelectedAmiiboCollection = () => {
-        let newArray = amiiboList.map((amiibo) => {
-            if (selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)) {
-                return {...amiibo, collected: !amiibo.collected}
-            }
-            else {
-                return amiibo;
-            }
-        });
-
-        setSelectedAmiiboIDs(new Set());
-        return newArray;
-    }
+    useEffect(() => {
+        if (location.pathname != "/myCollection") {
+            setShowOwned(true);
+            setShowUnowned(true);
+        }
+    }, [location])
 
     return (
         <div className="amiiboLibraryContainer">
@@ -53,6 +54,14 @@ const AmiiboLibrary = ({header, showAddRemove, showOwnedUnowned, isCollection}) 
                                     Confirm Changes
                                 </button>
                         }
+                        <div className="amiiboLibraryOwnershipCheckboxes">
+                            {
+                                showOwnedUnowned && <OwnershipCheckbox forOwned={true} isChecked={showOwned} handleCheck={setShowOwned}/>
+                            }
+                            {
+                                showOwnedUnowned && <OwnershipCheckbox forOwned={false} isChecked={showUnowned} handleCheck={setShowUnowned}/>
+                            }
+                        </div>
                         <input type="search" 
                             placeholder="Search" 
                             className="amiiboLibrarySearch"

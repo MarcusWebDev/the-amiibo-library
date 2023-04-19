@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useOutletContext } from "react-router-dom";
 import OrderBySelect from "../OrderBySelect/OrderBySelect";
+import OwnershipCheckbox from "../OwnershipCheckbox/OwnershipCheckbox";
 import SortBySelect from "../SortBySelect/SortBySelect";
 import "./MobileNavBar.css";
 
-const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) => {
+const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy, toggleSelectedAmiiboCollection, addRemoveEnabled, setAddRemoveEnabled, setAmiiboList, selectedAmiiboIDs, showOwned, showUnowned, setShowOwned, setShowUnowned}) => {
     const [isVisible, setIsVisible] = useState(false);
+    const location = useLocation();
 
     return (
         <div>
@@ -20,33 +22,57 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy}) =>
                 </div>
                 <h2 className="mobileNavBarH2">Site Navigation</h2>
                 <div className="mobileNavBarLinksContainer">
-                    {
-                        isSignedIn 
-                        ? null
-                        : <Link to="/signIn" className="mobileNavBarLink">Sign In</Link>
-                    }
-                    
                     <Link to="/" className="mobileNavBa-rLink">Home</Link>
                     <Link to="/amiibo" className="mobileNavBarLink">Amiibo</Link>
+                    {
+                        isSignedIn && <Link to="/myCollection" className="mobileNavBarLink">My Collection</Link>
+                    }
                 </div>
-                <h2 className="mobileNavBarH2">Page Tools</h2>
-                <input type="search" 
-                    placeholder="Search" 
-                    className="mobileNavBarSearch"
-                    onChange={(e) => filterAmiibos(e.target.value)}
-                    onKeyDown={(e) =>  e.key === "Enter" && setIsVisible(false)}
-                />
-                <button className="mobileNavBarAddRemoveButton">Add/Remove</button>
-                <SortBySelect setSortBy={setSortBy}/>
-                <OrderBySelect setIsAscending={setIsAscending} />
-                <div className="mobileNavBarCheckboxes">
-                    <label htmlFor="showOwned">Show Owned</label>
-                    <input type="checkbox" name="showOwned" />
-                </div>
-                <div className="mobileNavBarCheckboxes">
-                    <label htmlFor="showUnowned">Show Unowned</label>
-                    <input type="checkbox" name="showUnowned" />
-                </div>
+
+                { 
+                    (location.pathname == "/amiibo" || location.pathname == "/myCollection") && <h2 className="mobileNavBarH2">Page Tools</h2>
+                }
+                {
+                    (location.pathname == "/amiibo" || location.pathname == "/myCollection") &&
+                        <input type="search" 
+                            placeholder="Search" 
+                            className="mobileNavBarSearch"
+                            onChange={(e) => filterAmiibos(e.target.value)}
+                            onKeyDown={(e) =>  e.key === "Enter" && setIsVisible(false)}
+                        />
+                }
+                {
+                    location.pathname == "/myCollection" && 
+                        <button className={`mobileNavBarAddRemoveButton ${addRemoveEnabled ? "active" : ""}`}
+                            onClick={() => setAddRemoveEnabled((prevState)=> !prevState)}
+                        >
+                            Add/Remove
+                        </button>
+                }
+                
+                {
+                    addRemoveEnabled && selectedAmiiboIDs.size > 0 && location.pathname == "/myCollection" &&
+                        <button className="mobileNavBarConfirmChangesButton"
+                            onClick={() => {
+                                setAddRemoveEnabled(false);
+                                setAmiiboList(toggleSelectedAmiiboCollection());
+                            }}
+                        >
+                            Confirm Changes
+                        </button>
+                }
+                {
+                    (location.pathname == "/amiibo" || location.pathname == "/myCollection") && <SortBySelect setSortBy={setSortBy}/>
+                }
+                {
+                    (location.pathname == "/amiibo" || location.pathname == "/myCollection") && <OrderBySelect setIsAscending={setIsAscending} />
+                }
+                {
+                    location.pathname == "/myCollection" && <OwnershipCheckbox forOwned={true} isChecked={showOwned} handleCheck={setShowOwned} />
+                }
+                {
+                    location.pathname == "/myCollection" && <OwnershipCheckbox forOwned={false} isChecked={showUnowned} handleCheck={setShowUnowned} />
+                }
             </div>
         </div>
     );

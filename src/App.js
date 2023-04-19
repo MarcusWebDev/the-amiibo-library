@@ -14,15 +14,45 @@ function App() {
   const [sortBy, setSortBy] = useState("characterName");
   const [isAscending, setIsAscending] = useState(true);
   const [searchText, setSearchText] = useState("");
+  const [addRemoveEnabled, setAddRemoveEnabled] = useState(false);
+  const [selectedAmiiboIDs, setSelectedAmiiboIDs] = useState(new Set());
   const [isDesktop, setIsDesktop] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({innerHeight: window.innerHeight, innerWidth: window.innerWidth});
   const [googleSignInInitialized, setGoogleSignInInitialized] = useState(false);
   const [user, setUser] = useState(null);
+  const [showOwned, setShowOwned] = useState(true);
+  const [showUnowned, setShowUnowned] = useState(true);
 
   const filterAmiibos = (initialString) => {
     let searchString = initialString.toLowerCase();
     setSearchText(searchString);
-    setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString)).sort(amiiboComparator));
+
+    if (showOwned && showUnowned) {
+      setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString)).sort(amiiboComparator));  
+    } 
+    else if (showOwned && !showUnowned) {
+      setFilteredAmiiboList(amiiboList.filter((amiibo) => amiibo.collected && (amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString))).sort(amiiboComparator));
+    }
+    else if (!showOwned && showUnowned) {
+      setFilteredAmiiboList(amiiboList.filter((amiibo) => !amiibo.collected && (amiibo.character.toLowerCase().includes(searchString) || amiibo.amiiboSeries.toLowerCase().includes(searchString))).sort(amiiboComparator));
+    }
+    else {
+      setFilteredAmiiboList([]);
+    }
+  }
+
+  const toggleSelectedAmiiboCollection = () => {
+    let newArray = amiiboList.map((amiibo) => {
+        if (selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)) {
+            return {...amiibo, collected: !amiibo.collected}
+        }
+        else {
+            return amiibo;
+        }
+    });
+
+    setSelectedAmiiboIDs(new Set());
+    return newArray;
   }
 
   const amiiboComparator = (a, b) => {
@@ -108,7 +138,7 @@ function App() {
 
   useEffect(() => {
     filterAmiibos(searchText);
-  }, [amiiboList]);
+  }, [amiiboList, showOwned, showUnowned]);
 
   useEffect(() => {
     if (user != null) {
@@ -221,7 +251,22 @@ function App() {
       <Header isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
 
       {
-        !isDesktop && <MobileNavBar filterAmiibos={filterAmiibos} setIsAscending={setIsAscending} setSortBy={setSortBy}/>
+        !isDesktop && 
+          <MobileNavBar 
+            filterAmiibos={filterAmiibos} 
+            setIsAscending={setIsAscending} 
+            setSortBy={setSortBy} 
+            isSignedIn={user != null}
+            toggleSelectedAmiiboCollection={toggleSelectedAmiiboCollection} 
+            addRemoveEnabled={addRemoveEnabled}
+            setAddRemoveEnabled={setAddRemoveEnabled} 
+            setAmiiboList={setAmiiboList}
+            selectedAmiiboIDs={selectedAmiiboIDs}
+            showOwned={showOwned}
+            showUnowned={showUnowned}
+            setShowOwned={setShowOwned}
+            setShowUnowned={setShowUnowned}
+          />
       }
 
       <Outlet context={{
@@ -235,7 +280,16 @@ function App() {
         setSortBy: setSortBy,
         setIsAscending: setIsAscending,
         filterAmiibos: filterAmiibos,
-        searchText: searchText
+        searchText: searchText,
+        addRemoveEnabled: addRemoveEnabled,
+        setAddRemoveEnabled: setAddRemoveEnabled,
+        toggleSelectedAmiiboCollection: toggleSelectedAmiiboCollection,
+        selectedAmiiboIDs: selectedAmiiboIDs,
+        setSelectedAmiiboIDs: setSelectedAmiiboIDs,
+        showOwned: showOwned,
+        setShowOwned: setShowOwned, 
+        showUnowned: showUnowned,
+        setShowUnowned: setShowUnowned
         }}
       />
       <Footer />

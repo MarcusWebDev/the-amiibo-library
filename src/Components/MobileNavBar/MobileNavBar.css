@@ -77,13 +77,21 @@
     margin: 10px 0 5px 0;
     font-size: medium;
     background: transparent;
+    cursor: pointer;
+}
+.mobileNavBarConfirmChangesButton {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid black;
+    margin: 10px 0 5px 0;
+    font-size: medium;
+    background: transparent;
+    cursor: pointer;
 }
 
-.mobileNavBarCheckboxes {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    min-width: 140px;
+.mobileNavBarAddRemoveButton.active {
+    background: #28B1FF;
+    color: white;
 }
 @media (max-width: 1450px) {
     .mobileNavBarHamburger {
