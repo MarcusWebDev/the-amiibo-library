@@ -18,3 +18,7 @@
 .homePageCollectionCarousel {
     margin-left: 40px;
 }
+
+.react-multiple-carousel__arrow {
+    z-index: 2;
+}

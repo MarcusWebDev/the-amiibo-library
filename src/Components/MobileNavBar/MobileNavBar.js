@@ -55,7 +55,7 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy, tog
                         <button className="mobileNavBarConfirmChangesButton"
                             onClick={async () => {
                                 setAddRemoveEnabled(false);
-                                setAmiiboList(await toggleSelectedAmiiboCollection());
+                                setAmiiboList(await toggleSelectedAmiiboCollection(selectedAmiiboIDs));
                             }}
                         >
                             Confirm Changes

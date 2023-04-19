@@ -41,10 +41,10 @@ function App() {
     }
   }
 
-  const toggleSelectedAmiiboCollection = async () => {
+  const toggleSelectedAmiiboCollection = async (selectedIDs) => {
     let databaseRequestArray = [];
     let newArray = amiiboList.map((amiibo) => {
-        if (selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)) {
+        if (selectedIDs.has("" + amiibo.head + amiibo.tail)) {
             let newAmiibo = {...amiibo, collected: !amiibo.collected};
             databaseRequestArray.push(newAmiibo);
             return newAmiibo;
@@ -53,8 +53,7 @@ function App() {
             return amiibo;
         }
     });
-
-    console.log(databaseRequestArray);
+    
     let requestComplete = false;
     
     await fetch("http://localhost:4000/collection", {

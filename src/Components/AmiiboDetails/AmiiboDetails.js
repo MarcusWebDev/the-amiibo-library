@@ -4,10 +4,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import TabbedTextBox from "../TabbedTextBox/TabbedTextBox";
 import "./AmiiboDetails.css";
 
-const AmiiboDetails = ({amiibo, colorArray}) => {
-    
-
-
+const AmiiboDetails = ({amiibo, colorArray, user, handleCollect}) => {
     if (!amiibo) 
         return <LoadingSpinner />;
 
@@ -29,6 +26,12 @@ const AmiiboDetails = ({amiibo, colorArray}) => {
                 <li><strong>Australia</strong>: {new Date(amiibo.release.au).toLocaleDateString()}</li>
                 <li><strong>Japan</strong>: {new Date(amiibo.release.jp).toLocaleDateString()}</li>
             </ul>
+            {
+                user != null && !amiibo.collected && <button className="amiiboDetailsCollectionButton" onClick={() => handleCollect()}>Add to collection</button>
+            }
+            {
+                user != null && amiibo.collected && <button className="amiiboDetailsCollectionButton" onClick={() => handleCollect()}>Remove from collection</button>
+            }
             <p className="amiiboDetailsDetails"><strong>Usages:</strong></p>
             <div className="amiiboDetailsTextBoxContainer">
                 <TabbedTextBox tabNames={["Switch", "3DS", "Wii U"]} contentArray={[SwitchGames, ThreeDSGames, WiiUGames]}/>
