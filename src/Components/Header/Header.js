@@ -1,8 +1,18 @@
 import './Header.css';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = ({isDesktop, user, handleSignOut}) => {
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+
+    useEffect(() => {
+        window.onclick = (e) => {
+            if (!e.target.matches(".headerProfilePicture")) {
+                setDropdownVisible(false);
+            }
+        }
+    }, []);
+
     return (
         <header className="headerContainer">
             {
@@ -22,16 +32,15 @@ const Header = ({isDesktop, user, handleSignOut}) => {
                         
                 }
                 {
-                    user ? <img src={user.picture} onClick={handleSignOut} className="headerProfilePicture" /> : <div id="headerSignIn"/>
+                    user 
+                    ? <img src={user.picture} onClick={() => setDropdownVisible((true))} className="headerProfilePicture" />  
+                    : <div id="headerSignIn"/>
                 }
                 
             </nav>
-            
-            {/*
-                signedIn 
-                ? <p className="headerSignInOrOut">Sign Out</p>
-                : <p className="headerSignInOrOut">Sign In</p>
-            */}
+            <ul className={`headerProfileDropdown ${dropdownVisible ? "" : "hidden"}`}>
+                <li onClick={() => handleSignOut()}>Logout</li>
+            </ul>
         </header>
     );
 }

@@ -55,3 +55,40 @@
     width: 50px;
     margin: 0 10px;
 }
+
+.headerProfileDropdownContainer {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerProfileDropdown {
+    position: absolute;
+    right: 10px;
+    top: 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    margin-top: 5px;
+    list-style-type: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.headerProfileDropdown li {
+    padding: 10px;
+    width: 100%;
+}
+
+.headerProfileDropdown li:hover {
+    background: rgb(241, 241, 241);
+}

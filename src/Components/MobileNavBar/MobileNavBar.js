@@ -11,6 +11,7 @@ const MobileNavBar = ({isSignedIn, filterAmiibos, setIsAscending, setSortBy, tog
 
     return (
         <div>
+            <div className={`mobileNavBarCloseZone ${isVisible ? "" : "hidden"}`} onClick={() => setIsVisible(false)}/>
             <div className={`mobileNavBarHamburger ${isVisible ? "active" : ""}`} onClick={()=> setIsVisible(!isVisible)}>
                 <span className="mobileNavBarBar"></span>
                 <span className="mobileNavBarBar"></span>
