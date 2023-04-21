@@ -53,10 +53,10 @@ function App() {
             return amiibo;
         }
     });
-    
+
     let requestComplete = false;
     
-    await fetch("http://localhost:4000/collection", {
+    await fetch("https://api.amiibolibrary/collection", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -166,7 +166,7 @@ function App() {
 
   useEffect(() => {
     if (user != null) {
-      fetch("http://localhost:4000/signIn", {
+      fetch("https://api.amiibolibrary/signIn", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -174,7 +174,7 @@ function App() {
         })
       })
       .then(() => {
-        return fetch(`http://localhost:4000/amiibo/${user.email}`, {
+        return fetch(`https://api.amiibolibrary/amiibo/${user.email}`, {
           method: "GET"
         });
       })
