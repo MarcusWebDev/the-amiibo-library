@@ -83,7 +83,7 @@ const HomePage = () => {
             <h2 className="homePageCollectionHeader">Most Collected</h2>
             <Carousel responsive={responsiveSmall} className="homePageCollectionCarousel">
                 {
-                    amiiboList.filter((amiibo) => leastCollected.some((MCAmiibo) => MCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
+                    amiiboList.filter((amiibo) => mostCollected.some((MCAmiibo) => MCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
                     .sort((a , b) => b.count - a.count)
                     .map((amiibo) => {
                         return (
