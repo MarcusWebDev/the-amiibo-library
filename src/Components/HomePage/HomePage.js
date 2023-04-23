@@ -84,6 +84,17 @@ const HomePage = () => {
             <Carousel responsive={responsiveSmall} className="homePageCollectionCarousel">
                 {
                     amiiboList.filter((amiibo) => mostCollected.some((MCAmiibo) => MCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
+                    .map((amiibo) => { 
+                        let count;
+                        for (let i = 0; i < mostCollected.length; i++) {
+                            if (mostCollected[i].external_id == "" + amiibo.head + amiibo.tail) {
+                                count = mostCollected[i].count;
+                                break;
+                            }
+                        }
+                        let displayAmiibo = {...amiibo, count: count}; 
+                        return displayAmiibo;
+                    })
                     .sort((a , b) => b.count - a.count)
                     .map((amiibo) => {
                         return (
@@ -96,6 +107,17 @@ const HomePage = () => {
             <Carousel responsive={responsiveSmall} className="homePageCollectionCarousel">
                 {
                     amiiboList.filter((amiibo) => leastCollected.some((LCAmiibo) => LCAmiibo.external_id == "" + amiibo.head + amiibo.tail))
+                    .map((amiibo) => { 
+                        let count;
+                        for (let i = 0; i < leastCollected.length; i++) {
+                            if (leastCollected[i].external_id == "" + amiibo.head + amiibo.tail) {
+                                count = leastCollected[i].count;
+                                break;
+                            }
+                        }
+                        let displayAmiibo = {...amiibo, count: count}; 
+                        return displayAmiibo;
+                    })
                     .sort((a , b) => a.count - b.count)
                     .map((amiibo) => {
                         return (
