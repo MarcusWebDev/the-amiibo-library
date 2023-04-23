@@ -13,7 +13,7 @@ import RequireAuthentication from './Components/RequireAuthentication/RequireAut
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
