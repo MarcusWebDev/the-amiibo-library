@@ -40,7 +40,7 @@ const LargeCarouselItem = ({amiibo}) => {
             className="largeCaourselItemContainer" 
             style={{background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`}}
         >
-            <h1 className="largeCarouselItemHeader">New Arrivals</h1>
+            <h1 className="largeCarouselItemHeader">New Arrival</h1>
             <span className="largeCarouselItemCharacterName">{amiibo.character}</span>
             <img src={amiibo.image} ref={imageRef} className="largeCarouselItemImage" crossOrigin="anonymous" />
         </Link>
