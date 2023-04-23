@@ -50,7 +50,7 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        fetch(`https://api.amiibolibrary.com:4000/amiibo/mostCollected/${numToDisplay}`, {
+        fetch(`https://api.amiibolibrary.com:443/amiibo/mostCollected/${numToDisplay}`, {
             method: "GET"
         })
         .then((response) => response.json())
@@ -59,7 +59,7 @@ const HomePage = () => {
     }, [])
 
     useEffect(() => {
-        fetch(`https://api.amiibolibrary.com:4000/amiibo/leastCollected/${numToDisplay}`, {
+        fetch(`https://api.amiibolibrary.com:443/amiibo/leastCollected/${numToDisplay}`, {
             method: "GET"
         })
         .then((response) => response.json())
