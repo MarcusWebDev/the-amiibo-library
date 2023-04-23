@@ -19,7 +19,7 @@ const Header = ({isDesktop, user, handleSignOut}) => {
                 !isDesktop && <div className="headerPlaceholder" />
             }
 
-            <h1 className="headerLogo">The Amiibo Library</h1>
+            <Link to="/" className="headerLogo">The Amiibo Library</Link>
 
             <nav className="headerNavContainer">
                 {

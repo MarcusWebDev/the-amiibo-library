@@ -19,6 +19,9 @@
     margin: 0 25px;;
     font-size: medium;
     justify-self: center;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }
 
 .headerSignInOrOut {
