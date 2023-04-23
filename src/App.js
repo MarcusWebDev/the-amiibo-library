@@ -46,7 +46,12 @@ function App() {
     let newArray = amiiboList.map((amiibo) => {
         if (selectedIDs.has("" + amiibo.head + amiibo.tail)) {
             let newAmiibo = {...amiibo, collected: !amiibo.collected};
-            databaseRequestArray.push(newAmiibo);
+            let databaseRequestObject = {
+              head: amiibo.head,
+              tail: amiibo.tail,
+              collected: !amiibo.collected
+            };
+            databaseRequestArray.push(databaseRequestObject);
             return newAmiibo;
         }
         else {
