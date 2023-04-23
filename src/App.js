@@ -56,7 +56,7 @@ function App() {
 
     let requestComplete = false;
     
-    await fetch("https://api.amiibolibrary.com/collection", {
+    await fetch("http://api.amiibolibrary.com:4000/collection", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -166,7 +166,7 @@ function App() {
 
   useEffect(() => {
     if (user != null) {
-      fetch("https://api.amiibolibrary.com/signIn", {
+      fetch("http://api.amiibolibrary.com:4000/signIn", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -174,7 +174,7 @@ function App() {
         })
       })
       .then(() => {
-        return fetch(`https://api.amiibolibrary.com/amiibo/${user.email}`, {
+        return fetch(`http://api.amiibolibrary.com:4000/amiibo/${user.email}`, {
           method: "GET"
         });
       })

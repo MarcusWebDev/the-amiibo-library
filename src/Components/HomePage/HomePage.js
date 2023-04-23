@@ -50,19 +50,21 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        fetch(`https://api.amiibolibrary.com/amiibo/mostCollected/${numToDisplay}`, {
+        fetch(`http://api.amiibolibrary.com:4000/amiibo/mostCollected/${numToDisplay}`, {
             method: "GET"
         })
         .then((response) => response.json())
         .then((json) => setMostCollected(json))
+        .catch((e) => console.log(e));
     }, [])
 
     useEffect(() => {
-        fetch(`https://api.amiibolibrary.com/amiibo/leastCollected/${numToDisplay}`, {
+        fetch(`http://api.amiibolibrary.com:4000/amiibo/leastCollected/${numToDisplay}`, {
             method: "GET"
         })
         .then((response) => response.json())
         .then((json) => setLeastCollected(json))
+        .catch((e) => console.log(e));
     }, [])
 
 
