@@ -1,17 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.scss";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
-import AmiiboDetailsDataWrapper from './Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper';
-import TermsOfServiceAndPrivacy from './Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy';
-import HomePage from './Components/HomePage/HomePage';
-import RequireAuthentication from './Components/RequireAuthentication/RequireAuthentication';
+import AmiiboDetailsDataWrapper from "./Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper";
+import TermsOfServiceAndPrivacy from "./Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy";
+import HomePage from "./Components/HomePage/HomePage";
+import RequireAuthentication from "./Components/RequireAuthentication/RequireAuthentication";
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const router = createHashRouter([
   {
@@ -20,32 +19,50 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />
+        element: <HomePage />,
       },
       {
         path: "/amiibo",
-        element: <AmiiboLibrary header={"Amiibo"} showAddRemove={false} showOwnedUnowned={false} isCollection={false}/>
+        element: (
+          <AmiiboLibrary
+            header={"Amiibo"}
+            showAddRemove={false}
+            showOwnedUnowned={false}
+            isCollection={false}
+          />
+        ),
       },
       {
         path: "/amiibo/:characterName/:amiiboId/:colorArray",
-        element: <AmiiboDetailsDataWrapper />
+        element: <AmiiboDetailsDataWrapper />,
       },
       {
         path: "/mycollection",
-        element: <RequireAuthentication component={<AmiiboLibrary header={"My Collection"} showAddRemove={true} showOwnedUnowned={true} isCollection={true} />}/>
+        element: (
+          <RequireAuthentication
+            component={
+              <AmiiboLibrary
+                header={"My Collection"}
+                showAddRemove={true}
+                showOwnedUnowned={true}
+                isCollection={true}
+              />
+            }
+          />
+        ),
       },
       {
         path: "/termsOfServiceAndPrivacy",
-        element: <TermsOfServiceAndPrivacy />
-      }
-    ]
-  }
+        element: <TermsOfServiceAndPrivacy />,
+      },
+    ],
+  },
 ]);
 
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

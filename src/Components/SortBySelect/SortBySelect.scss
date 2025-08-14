@@ -1,0 +1,18 @@
+.sortBySelectContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.sortBySelectLabel {
+  pointer-events: none;
+}
+
+.sortBySelectSelect {
+  border: 1px solid black;
+  font-size: medium;
+  border-radius: 8px;
+  padding: 5px 10px;
+  height: fit-content;
+}

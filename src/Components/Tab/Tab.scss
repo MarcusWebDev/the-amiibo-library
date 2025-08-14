@@ -1,0 +1,9 @@
+.tabContainer {
+  padding: 3px;
+  border: 1px solid rgb(179, 179, 179);
+  cursor: pointer;
+}
+
+.tabContainer.selected {
+  border: 1px solid black;
+}

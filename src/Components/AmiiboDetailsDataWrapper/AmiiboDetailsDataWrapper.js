@@ -3,24 +3,33 @@ import { resolvePath, useOutletContext, useParams } from "react-router-dom";
 import AmiiboDetails from "../AmiiboDetails/AmiiboDetails";
 
 const AmiiboDetailsDataWrapper = () => {
-    const params = useParams();
-    const context = useOutletContext();
-    const amiiboList = context.amiiboList;
-    const setAmiiboList = context.setAmiiboList;
-    const setSelectedAmiiboIDs = context.setSelectedAmiiboIDs;
-    const toggleSelectedAmiiboCollection = context.toggleSelectedAmiiboCollection;
-    const user = context.user;
-    const amiibo = amiiboList.find(curAmiibo => "" + curAmiibo.head + curAmiibo.tail == params.amiiboId);
-    
-    const handleCollect = async (isAdding) => {
-        let newSet = new Set();
+  const params = useParams();
+  const context = useOutletContext();
+  const amiiboList = context.amiiboList;
+  const setAmiiboList = context.setAmiiboList;
+  const setSelectedAmiiboIDs = context.setSelectedAmiiboIDs;
+  const toggleSelectedAmiiboCollection = context.toggleSelectedAmiiboCollection;
+  const user = context.user;
+  const amiibo = amiiboList.find(
+    (curAmiibo) => "" + curAmiibo.head + curAmiibo.tail == params.amiiboId,
+  );
 
-        newSet.add("" + amiibo.head + amiibo.tail);
+  const handleCollect = async (isAdding) => {
+    let newSet = new Set();
 
-        setAmiiboList(await toggleSelectedAmiiboCollection(newSet));
-    }
+    newSet.add("" + amiibo.head + amiibo.tail);
 
-    return <AmiiboDetails amiibo={amiibo} colorArray={JSON.parse(params.colorArray)} user={user} handleCollect={handleCollect}/>
-}
+    setAmiiboList(await toggleSelectedAmiiboCollection(newSet));
+  };
+
+  return (
+    <AmiiboDetails
+      amiibo={amiibo}
+      colorArray={JSON.parse(params.colorArray)}
+      user={user}
+      handleCollect={handleCollect}
+    />
+  );
+};
 
 export default AmiiboDetailsDataWrapper;
