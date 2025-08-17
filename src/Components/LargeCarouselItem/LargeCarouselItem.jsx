@@ -7,7 +7,7 @@ import "./LargeCarouselItem.scss";
 const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 const LargeCarouselItem = ({ amiibo }) => {
-  const { amiiboBackgroundColors, setAmiiboBackgroundColor } =
+  const { amiiboBackgroundColors, setAmiiboBackgroundColor, windowDimensions } =
     useOutletContext();
   const [colorArray, setColorArray] = React.useState([255, 255, 255]);
   const imageRef = React.useRef(null);
@@ -37,11 +37,17 @@ const LargeCarouselItem = ({ amiibo }) => {
     } else {
       setColorArray(amiiboBackgroundColors.get("" + amiibo.head + amiibo.tail));
     }
-
-    if (containerRef && nameRef) {
-      shrinkTextToFitContainer(containerRef.current, nameRef.current);
-    }
   }, []);
+
+  React.useEffect(() => {
+    if (containerRef && nameRef) {
+      if (windowDimensions.innerWidth > 600) {
+        shrinkTextToFitContainer(containerRef.current, nameRef.current, 300);
+      } else {
+        shrinkTextToFitContainer(containerRef.current, nameRef.current, 100);
+      }
+    }
+  }, [windowDimensions]);
 
   return (
     <Link
