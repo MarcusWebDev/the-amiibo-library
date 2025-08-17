@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { redirect, useNavigate, useOutletContext } from "react-router-dom";
+import React from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const RequireAuthentication = ({ component }) => {
   const navigate = useNavigate();
-  const context = useOutletContext();
-  const user = context.user;
+  const { user } = useOutletContext();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user == null) {
       navigate("/");
     }

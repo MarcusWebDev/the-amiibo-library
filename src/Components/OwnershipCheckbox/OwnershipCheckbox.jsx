@@ -1,15 +1,14 @@
-import React from "react";
 import "./OwnershipCheckbox.scss";
 
 const OwnershipCheckbox = ({ forOwned, isChecked, handleCheck }) => {
   return (
     <div className="ownershipCheckboxContainer">
-      <label htmlFor={`${forOwned ? "showOwned" : "showUnowned"}`}>
+      <label htmlFor={`${forOwned ? "shouldShowOwned" : "shouldShowUnowned"}`}>
         Show {forOwned ? "Owned" : "Unowned"}
       </label>
       <input
         type="checkbox"
-        name={`${forOwned ? "showOwned" : "showUnowned"}`}
+        name={`${forOwned ? "shouldShowOwned" : "shouldShowUnowned"}`}
         onChange={(e) => handleCheck(e.target.checked)}
         checked={isChecked}
       />

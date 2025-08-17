@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useOutletContext } from "react-router-dom";
-import AmiiboCard from "../AmiiboCard/AmiiboCard";
-import LargeCarouselItem from "../LargeCarouselItem/LargeCarouselItem";
+import AmiiboCard from "../AmiiboCard";
+import LargeCarouselItem from "../LargeCarouselItem";
 import "./HomePage.scss";
 
 const HomePage = () => {
-  const amiiboList = useOutletContext().amiiboList;
+  const { amiiboList } = useOutletContext();
   const numToDisplay = 10;
   const sortedAmiiboList = new Array(amiiboList)[0]
     .sort((a, b) => new Date(b.release.na) - new Date(a.release.na))
     .slice(0, 10);
-  const [mostCollected, setMostCollected] = useState([]);
-  const [leastCollected, setLeastCollected] = useState([]);
+  const [mostCollected, setMostCollected] = React.useState([]);
+  const [leastCollected, setLeastCollected] = React.useState([]);
 
   const responsiveLarge = {
     all: {
@@ -49,7 +49,7 @@ const HomePage = () => {
     },
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch(
       `https://api.amiibolibrary.com/amiibo/mostCollected/${numToDisplay}`,
       {
@@ -58,10 +58,10 @@ const HomePage = () => {
     )
       .then((response) => response.json())
       .then((json) => setMostCollected(json))
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch(
       `https://api.amiibolibrary.com/amiibo/leastCollected/${numToDisplay}`,
       {
@@ -70,7 +70,7 @@ const HomePage = () => {
     )
       .then((response) => response.json())
       .then((json) => setLeastCollected(json))
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }, []);
 
   return (
@@ -114,8 +114,8 @@ const HomePage = () => {
                 break;
               }
             }
-            let displayAmiibo = { ...amiibo, count: count };
-            return displayAmiibo;
+
+            return { ...amiibo, count: count };
           })
           .sort((a, b) => b.count - a.count)
           .map((amiibo) => {
@@ -150,8 +150,8 @@ const HomePage = () => {
                 break;
               }
             }
-            let displayAmiibo = { ...amiibo, count: count };
-            return displayAmiibo;
+
+            return { ...amiibo, count: count };
           })
           .sort((a, b) => a.count - b.count)
           .map((amiibo) => {

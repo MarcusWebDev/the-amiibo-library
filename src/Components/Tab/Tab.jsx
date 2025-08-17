@@ -1,4 +1,3 @@
-import React from "react";
 import "./Tab.scss";
 
 const Tab = ({ tabName, isSelected, handleClick }) => {

@@ -1,11 +1,11 @@
 import "./Header.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = ({ isDesktop, user, handleSignOut }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.onclick = (e) => {
       if (!e.target.matches(".headerProfilePicture")) {
         setDropdownVisible(false);

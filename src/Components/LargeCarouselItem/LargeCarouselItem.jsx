@@ -1,15 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useOutletContext, Link } from "react-router-dom";
-import ColorThief from "../../../node_modules/colorthief/dist/color-thief.mjs";
+import ColorThief from "colorthief";
+import { shrinkTextToFitContainer } from "../../utils/textUtils.jsx";
 import "./LargeCarouselItem.scss";
 
-const LargeCarouselItem = ({ amiibo }) => {
-  const amiiboBackgroundColors = useOutletContext().amiiboBackgroundColors;
-  const setAmiiboBackgroundColor = useOutletContext().setAmiiboBackgroundColor;
-  const [colorArray, setColorArray] = useState([255, 255, 255]);
-  const imageRef = useRef(null);
+const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
-  useEffect(() => {
+const LargeCarouselItem = ({ amiibo }) => {
+  const { amiiboBackgroundColors, setAmiiboBackgroundColor } =
+    useOutletContext();
+  const [colorArray, setColorArray] = React.useState([255, 255, 255]);
+  const imageRef = React.useRef(null);
+  const nameRef = React.useRef(null);
+  const containerRef = React.useRef(null);
+  const differenceInMilliseconds = new Date() - new Date(amiibo.release.na);
+  const isReleasedWithinThirtyDays =
+    Math.floor(differenceInMilliseconds / ONE_DAY_IN_MILLISECONDS) < 30;
+
+  React.useEffect(() => {
     if (amiiboBackgroundColors.get("" + amiibo.head + amiibo.tail) == null) {
       let colorThief = new ColorThief();
 
@@ -29,18 +37,27 @@ const LargeCarouselItem = ({ amiibo }) => {
     } else {
       setColorArray(amiiboBackgroundColors.get("" + amiibo.head + amiibo.tail));
     }
+
+    if (containerRef && nameRef) {
+      shrinkTextToFitContainer(containerRef.current, nameRef.current);
+    }
   }, []);
 
   return (
     <Link
-      to={`/amiibo/${amiibo.character}/${amiibo.head}${amiibo.tail}/${JSON.stringify(colorArray)}`}
+      ref={containerRef}
       className="largeCaourselItemContainer"
+      to={`/amiibo/${amiibo.head}${amiibo.tail}/?colorArray=${JSON.stringify(colorArray)}`}
       style={{
         background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`,
       }}
     >
-      <h1 className="largeCarouselItemHeader">New Arrival</h1>
-      <span className="largeCarouselItemCharacterName">{amiibo.character}</span>
+      {isReleasedWithinThirtyDays && (
+        <h1 className="largeCarouselItemHeader">New Arrival</h1>
+      )}
+      <span ref={nameRef} className="largeCarouselItemCharacterName">
+        {amiibo.character}
+      </span>
       <img
         src={amiibo.image}
         ref={imageRef}

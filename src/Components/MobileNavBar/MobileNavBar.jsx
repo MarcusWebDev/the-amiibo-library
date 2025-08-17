@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useOutletContext } from "react-router-dom";
-import OrderBySelect from "../OrderBySelect/OrderBySelect";
-import OwnershipCheckbox from "../OwnershipCheckbox/OwnershipCheckbox";
-import SortBySelect from "../SortBySelect/SortBySelect";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import OrderBySelect from "../OrderBySelect";
+import OwnershipCheckbox from "../OwnershipCheckbox";
+import SortBySelect from "../SortBySelect";
 import "./MobileNavBar.scss";
 
 const MobileNavBar = ({
@@ -11,16 +11,16 @@ const MobileNavBar = ({
   setIsAscending,
   setSortBy,
   toggleSelectedAmiiboCollection,
-  addRemoveEnabled,
-  setAddRemoveEnabled,
+  isAddRemoveEnabled,
+  setIsAddRemoveEnabled,
   setAmiiboList,
   selectedAmiiboIDs,
-  showOwned,
-  showUnowned,
-  setShowOwned,
-  setShowUnowned,
+  shouldShowOwned,
+  shouldShowUnowned,
+  setShouldShowOwned,
+  setShouldShowUnowned,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
   const location = useLocation();
 
   return (
@@ -72,20 +72,20 @@ const MobileNavBar = ({
         )}
         {location.pathname == "/myCollection" && (
           <button
-            className={`mobileNavBarAddRemoveButton ${addRemoveEnabled ? "active" : ""}`}
-            onClick={() => setAddRemoveEnabled((prevState) => !prevState)}
+            className={`mobileNavBarAddRemoveButton ${isAddRemoveEnabled ? "active" : ""}`}
+            onClick={() => setIsAddRemoveEnabled((prevState) => !prevState)}
           >
             Add/Remove
           </button>
         )}
 
-        {addRemoveEnabled &&
+        {isAddRemoveEnabled &&
           selectedAmiiboIDs.size > 0 &&
           location.pathname == "/myCollection" && (
             <button
               className="mobileNavBarConfirmChangesButton"
               onClick={async () => {
-                setAddRemoveEnabled(false);
+                setIsAddRemoveEnabled(false);
                 setAmiiboList(
                   await toggleSelectedAmiiboCollection(selectedAmiiboIDs),
                 );
@@ -105,15 +105,15 @@ const MobileNavBar = ({
         {location.pathname == "/myCollection" && (
           <OwnershipCheckbox
             forOwned={true}
-            isChecked={showOwned}
-            handleCheck={setShowOwned}
+            isChecked={shouldShowOwned}
+            handleCheck={setShouldShowOwned}
           />
         )}
         {location.pathname == "/myCollection" && (
           <OwnershipCheckbox
             forOwned={false}
-            isChecked={showUnowned}
-            handleCheck={setShowUnowned}
+            isChecked={shouldShowUnowned}
+            handleCheck={setShouldShowUnowned}
           />
         )}
       </div>

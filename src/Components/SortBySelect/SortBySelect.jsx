@@ -1,4 +1,3 @@
-import React from "react";
 import "./SortBySelect.scss";
 
 const SortBySelect = ({ setSortBy, isRow }) => {

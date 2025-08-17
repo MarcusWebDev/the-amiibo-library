@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import Tab from "../Tab/Tab";
-import TextBox from "../TextBox/TextBox";
+import React from "react";
+import Tab from "../Tab";
+import TextBox from "../TextBox";
 import "./TabbedTextBox.scss";
 
-const TabbedTextBox = ({ tabNames, contentArray }) => {
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+const TabbedTextBox = ({ tabNames, contentArray, noContentMessage }) => {
+  const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   let keyCounter = 0;
   return (
     <div className="TabbedTextBoxContainer">
@@ -18,7 +18,10 @@ const TabbedTextBox = ({ tabNames, contentArray }) => {
           />
         ))}
       </div>
-      <TextBox contentArray={contentArray[currentTabIndex]} />
+      <TextBox
+        contentArray={contentArray[currentTabIndex]}
+        noContentMessage={noContentMessage}
+      />
     </div>
   );
 };

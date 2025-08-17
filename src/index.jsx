@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import App from "./App";
+import App from "./App.jsx";
 import reportWebVitals from "./reportWebVitals";
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import AmiiboLibrary from "./Components/AmiiboLibrary/AmiiboLibrary";
-import AmiiboDetailsDataWrapper from "./Components/AmiiboDetailsDataWrapper/AmiiboDetailsDataWrapper";
-import TermsOfServiceAndPrivacy from "./Components/TermsOfServiceAndPrivacy/TermsOfServiceAndPrivacy";
-import HomePage from "./Components/HomePage/HomePage";
-import RequireAuthentication from "./Components/RequireAuthentication/RequireAuthentication";
+import AmiiboLibrary from "./components/AmiiboLibrary";
+import AmiiboDetailsDataWrapper from "./components/AmiiboDetailsDataWrapper";
+import TermsOfServiceAndPrivacy from "./components/TermsOfServiceAndPrivacy";
+import HomePage from "./components/HomePage";
+import RequireAuthentication from "./components/RequireAuthentication";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -33,7 +33,7 @@ const router = createHashRouter([
         ),
       },
       {
-        path: "/amiibo/:characterName/:amiiboId/:colorArray",
+        path: "/amiibo/:amiiboId",
         element: <AmiiboDetailsDataWrapper />,
       },
       {
@@ -42,6 +42,7 @@ const router = createHashRouter([
           <RequireAuthentication
             component={
               <AmiiboLibrary
+                className="collection-library"
                 header={"My Collection"}
                 showAddRemove={true}
                 showOwnedUnowned={true}

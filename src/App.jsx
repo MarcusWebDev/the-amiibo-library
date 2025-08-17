@@ -1,66 +1,56 @@
 import { Outlet } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import MobileNavBar from "./Components/MobileNavBar/MobileNavBar.js";
-import Header from "./Components/Header/Header.js";
-import Footer from "./Components/Footer/Footer";
-import { useEffect, useState } from "react";
+import MobileNavBar from "./components/MobileNavBar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import React from "react";
 import "./App.scss";
 
 function App() {
-  const [amiiboList, setAmiiboList] = useState([]);
-  const [filteredAmiiboList, setFilteredAmiiboList] = useState([]);
-  const [amiiboBackgroundColors, setAmiiboBackgroundColors] = useState(
+  const [amiiboList, setAmiiboList] = React.useState([]);
+  const [filteredAmiiboList, setFilteredAmiiboList] = React.useState([]);
+  const [amiiboBackgroundColors, setAmiiboBackgroundColors] = React.useState(
     new Map(),
   );
-  const [sortBy, setSortBy] = useState("characterName");
-  const [isAscending, setIsAscending] = useState(true);
-  const [searchText, setSearchText] = useState("");
-  const [addRemoveEnabled, setAddRemoveEnabled] = useState(false);
-  const [selectedAmiiboIDs, setSelectedAmiiboIDs] = useState(new Set());
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [windowDimensions, setWindowDimensions] = useState({
+  const [sortBy, setSortBy] = React.useState("characterName");
+  const [isAscending, setIsAscending] = React.useState(true);
+  const [searchText, setSearchText] = React.useState("");
+  const [isAddRemoveEnabled, setIsAddRemoveEnabled] = React.useState(false);
+  const [selectedAmiiboIDs, setSelectedAmiiboIDs] = React.useState(new Set());
+  const [isDesktop, setIsDesktop] = React.useState(false);
+  const [windowDimensions, setWindowDimensions] = React.useState({
     innerHeight: window.innerHeight,
     innerWidth: window.innerWidth,
   });
-  const [googleSignInInitialized, setGoogleSignInInitialized] = useState(false);
-  const [user, setUser] = useState(null);
-  const [showOwned, setShowOwned] = useState(true);
-  const [showUnowned, setShowUnowned] = useState(true);
+  const [isGoogleSignInInitialized, setIsGoogleSignInInitialized] =
+    React.useState(false);
+  const [user, setUser] = React.useState(null);
+  const [shouldShowOwned, setShouldShowOwned] = React.useState(true);
+  const [shouldShowUnowned, setShouldShowUnowned] = React.useState(true);
 
   const filterAmiibos = (initialString) => {
-    let searchString = initialString.toLowerCase();
+    const searchString = initialString.toLowerCase();
+    const isSearchStringMatch = (amiibo) =>
+      amiibo.character.toLowerCase().includes(searchString) ||
+      amiibo.amiiboSeries.toLowerCase().includes(searchString);
     setSearchText(searchString);
 
-    if (showOwned && showUnowned) {
+    if (shouldShowOwned && shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter(
-            (amiibo) =>
-              amiibo.character.toLowerCase().includes(searchString) ||
-              amiibo.amiiboSeries.toLowerCase().includes(searchString),
-          )
+          .filter((amiibo) => isSearchStringMatch(amiibo))
           .sort(amiiboComparator),
       );
-    } else if (showOwned && !showUnowned) {
+    } else if (shouldShowOwned && !shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter(
-            (amiibo) =>
-              amiibo.collected &&
-              (amiibo.character.toLowerCase().includes(searchString) ||
-                amiibo.amiiboSeries.toLowerCase().includes(searchString)),
-          )
+          .filter((amiibo) => amiibo.collected && isSearchStringMatch(amiibo))
           .sort(amiiboComparator),
       );
-    } else if (!showOwned && showUnowned) {
+    } else if (!shouldShowOwned && shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter(
-            (amiibo) =>
-              !amiibo.collected &&
-              (amiibo.character.toLowerCase().includes(searchString) ||
-                amiibo.amiiboSeries.toLowerCase().includes(searchString)),
-          )
+          .filter((amiibo) => !amiibo.collected && isSearchStringMatch(amiibo))
           .sort(amiiboComparator),
       );
     } else {
@@ -69,16 +59,13 @@ function App() {
   };
 
   const toggleSelectedAmiiboCollection = async (selectedIDs) => {
-    let databaseRequestArray = [];
-    let newArray = amiiboList.map((amiibo) => {
+    const databaseRequestArray = [];
+    const newArray = amiiboList.map((amiibo) => {
       if (selectedIDs.has("" + amiibo.head + amiibo.tail)) {
-        let newAmiibo = { ...amiibo, collected: !amiibo.collected };
-        let databaseRequestObject = {
-          head: amiibo.head,
-          tail: amiibo.tail,
-          collected: !amiibo.collected,
-        };
-        databaseRequestArray.push(databaseRequestObject);
+        const newAmiibo = { ...amiibo, collected: !amiibo.collected };
+
+        databaseRequestArray.push(newAmiibo);
+
         return newAmiibo;
       } else {
         return amiibo;
@@ -96,9 +83,8 @@ function App() {
       }),
     })
       .then((response) => response.json())
-      .then((json) => console.log(json))
       .then(() => (requestComplete = true))
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
 
     setSelectedAmiiboIDs(new Set());
 
@@ -110,63 +96,42 @@ function App() {
   };
 
   const amiiboComparator = (a, b) => {
-    if (sortBy == "releaseDate") {
+    if (sortBy === "releaseDate") {
       if (isAscending) {
         return new Date(a.release.na) - new Date(b.release.na);
       } else {
         return new Date(b.release.na) - new Date(a.release.na);
       }
-    } else if (sortBy == "characterName") {
+    } else if (sortBy === "characterName") {
       if (isAscending) {
-        if (a.character > b.character) {
-          return 1;
-        } else if (a.character < b.character) {
-          return -1;
-        } else {
-          return 0;
-        }
+        return a.character.localeCompare(b.character);
       } else {
-        if (a.character > b.character) {
-          return -1;
-        } else if (a.character < b.character) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return b.character.localeCompare(a.character);
       }
-    } else if (sortBy == "amiiboSeries") {
+    } else if (sortBy === "amiiboSeries") {
       if (isAscending) {
-        if (a.amiiboSeries > b.amiiboSeries) {
-          return 1;
-        } else if (a.amiiboSeries < b.amiiboSeries) {
-          return -1;
-        } else {
-          return 0;
-        }
+        return a.amiiboSeries.localeCompare(b.amiiboSeries);
       } else {
-        if (a.amiiboSeries > b.amiiboSeries) {
-          return -1;
-        } else if (a.amiiboSeries < b.amiiboSeries) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return b.amiiboSeries.localeCompare(a.amiiboSeries);
       }
     } else {
-      console.log("Error: invalid sortBy");
+      console.error(`Error: invalid sortBy: '${sortBy}'.`);
     }
   };
 
   const setAmiiboBackgroundColor = (amiibo, color) => {
     setAmiiboBackgroundColors((prevState) => {
-      let newMap = new Map(prevState);
+      const newMap = new Map(prevState);
+
       newMap.set("" + amiibo.head + amiibo.tail, color);
+
       return newMap;
     });
   };
 
   const handleCallbackResponse = (response) => {
-    var userObject = jwt_decode(response.credential);
+    const userObject = jwt_decode(response.credential);
+
     setUser(userObject);
   };
 
@@ -174,12 +139,12 @@ function App() {
     setUser(null);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     filterAmiibos(searchText);
-  }, [amiiboList, showOwned, showUnowned]);
+  }, [amiiboList, shouldShowOwned, shouldShowUnowned, sortBy, isAscending]);
 
-  useEffect(() => {
-    if (user != null) {
+  React.useEffect(() => {
+    if (user !== null) {
       fetch("https://api.amiibolibrary.com/signIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -192,19 +157,15 @@ function App() {
             method: "GET",
           });
         })
-        .then(async (response) => {
-          let responseObject = {
-            status: response.status,
-            json: await response.json(),
-          };
-
-          return responseObject;
-        })
+        .then(async (response) => ({
+          status: response.status,
+          json: await response.json(),
+        }))
         .then(({ status, json }) => {
-          let newArray = [...amiiboList];
+          const newArray = [...amiiboList];
           for (let i = 0; i < amiiboList.length; i++) {
             if (
-              status == 200 &&
+              status === 200 &&
               json.includes("" + amiiboList[i].head + amiiboList[i].tail)
             ) {
               newArray[i].collected = true;
@@ -213,34 +174,33 @@ function App() {
             }
           }
 
-          setAmiiboList(newArray);
           const sortedNewArray = [...newArray].sort(amiiboComparator);
+
+          setAmiiboList(newArray);
           setFilteredAmiiboList(sortedNewArray);
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.error(e));
     }
   }, [user]);
 
-  useEffect(() => {
-    filterAmiibos(searchText);
-  }, [sortBy, isAscending]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     fetch("https://amiiboapi.com/api/amiibo/?showusage")
       .then((response) => response.json())
       .then((json) => {
         const figures = json.amiibo.filter(
           (amiibo) => amiibo.type === "Figure",
         );
-        setAmiiboList(figures);
         const sortedFigures = [...figures].sort(amiiboComparator);
+
+        setAmiiboList(figures);
         setFilteredAmiiboList(sortedFigures);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }, []);
 
-  useEffect(() => {
-    let script = document.createElement("script");
+  React.useEffect(() => {
+    const script = document.createElement("script");
+
     script.setAttribute("src", "https://accounts.google.com/gsi/client");
     script.setAttribute("id", "googleScript");
     script.setAttribute("async", "true");
@@ -252,12 +212,12 @@ function App() {
         callback: handleCallbackResponse,
       });
 
-      setGoogleSignInInitialized(true);
+      setIsGoogleSignInInitialized(true);
     });
     document.head.appendChild(script);
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (windowDimensions.innerWidth < 1024) {
       setIsDesktop(false);
     } else {
@@ -265,8 +225,8 @@ function App() {
     }
   }, [windowDimensions]);
 
-  useEffect(() => {
-    if (googleSignInInitialized && user == null) {
+  React.useEffect(() => {
+    if (isGoogleSignInInitialized && user === null) {
       if (isDesktop) {
         window.google.accounts.id.renderButton(
           document.getElementById("headerSignIn"),
@@ -279,9 +239,9 @@ function App() {
         );
       }
     }
-  }, [isDesktop, googleSignInInitialized, user]);
+  }, [isDesktop, isGoogleSignInInitialized, user]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.addEventListener("resize", () =>
       setWindowDimensions({
         innerHeight: window.innerHeight,
@@ -300,25 +260,23 @@ function App() {
   return (
     <div className="App">
       <Header isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
-
       {!isDesktop && (
         <MobileNavBar
           filterAmiibos={filterAmiibos}
           setIsAscending={setIsAscending}
           setSortBy={setSortBy}
-          isSignedIn={user != null}
+          isSignedIn={user !== undefined}
           toggleSelectedAmiiboCollection={toggleSelectedAmiiboCollection}
-          addRemoveEnabled={addRemoveEnabled}
-          setAddRemoveEnabled={setAddRemoveEnabled}
+          isAddRemoveEnabled={isAddRemoveEnabled}
+          setIsAddRemoveEnabled={setIsAddRemoveEnabled}
           setAmiiboList={setAmiiboList}
           selectedAmiiboIDs={selectedAmiiboIDs}
-          showOwned={showOwned}
-          showUnowned={showUnowned}
-          setShowOwned={setShowOwned}
-          setShowUnowned={setShowUnowned}
+          shouldShowOwned={shouldShowOwned}
+          shouldShowUnowned={shouldShowUnowned}
+          setShouldShowOwned={setShouldShowOwned}
+          setShouldShowUnowned={setShouldShowUnowned}
         />
       )}
-
       <Outlet
         context={{
           user: user,
@@ -331,16 +289,15 @@ function App() {
           setSortBy: setSortBy,
           setIsAscending: setIsAscending,
           filterAmiibos: filterAmiibos,
-          searchText: searchText,
-          addRemoveEnabled: addRemoveEnabled,
-          setAddRemoveEnabled: setAddRemoveEnabled,
+          isAddRemoveEnabled: isAddRemoveEnabled,
+          setIsAddRemoveEnabled: setIsAddRemoveEnabled,
           toggleSelectedAmiiboCollection: toggleSelectedAmiiboCollection,
           selectedAmiiboIDs: selectedAmiiboIDs,
           setSelectedAmiiboIDs: setSelectedAmiiboIDs,
-          showOwned: showOwned,
-          setShowOwned: setShowOwned,
-          showUnowned: showUnowned,
-          setShowUnowned: setShowUnowned,
+          shouldShowOwned: shouldShowOwned,
+          setShouldShowOwned: setShouldShowOwned,
+          shouldShowUnowned: shouldShowUnowned,
+          setShouldShowUnowned: setShouldShowUnowned,
         }}
       />
       <Footer />
