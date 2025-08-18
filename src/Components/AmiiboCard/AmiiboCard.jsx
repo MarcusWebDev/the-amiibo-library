@@ -7,20 +7,20 @@ import "./AmiiboCard.scss";
 const AmiiboCardContent = ({ amiibo, colorArray, imageRef }) => {
   return (
     <div
-      className="amiiboCardContentContainer"
+      className="AmiiboCardContent"
       style={{
         background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`,
       }}
     >
       <img
-        className="amiiboCardImage"
+        className="amiibo-image"
         src={amiibo.image}
         ref={imageRef}
         crossOrigin="anonymous"
       />
-      <div className="amiiboCardTextContainer">
-        <p className="amiiboCardNameText">{amiibo.character}</p>
-        <p className="amiiboCardSeriesText">{amiibo.amiiboSeries}</p>
+      <div className="text-container">
+        <p className="character-name">{amiibo.character}</p>
+        <p className="series">{amiibo.amiiboSeries}</p>
       </div>
     </div>
   );
@@ -64,7 +64,7 @@ const AmiiboCard = ({
 
   return isAddRemoveEnabled ? (
     <div
-      className={`amiiboCardContainer ${colorThiefFinished ? "" : "hidden"} ${
+      className={`AmiiboCard ${colorThiefFinished ? "" : "hidden"} ${
         isSelected && !amiibo.collected
           ? "pending-add"
           : isSelected && amiibo.collected
@@ -87,9 +87,9 @@ const AmiiboCard = ({
       }}
     >
       {isSelected && !amiibo.collected ? (
-        <div className="amiiboCardSelectedIcon amiiboCardAddIcon" />
+        <div className="icon add-icon" />
       ) : isSelected && amiibo.collected ? (
-        <div className="amiiboCardSelectedIcon amiiboCardDeleteIcon" />
+        <div className="icon delete-icon" />
       ) : null}
       <AmiiboCardContent
         amiibo={amiibo}
@@ -99,7 +99,7 @@ const AmiiboCard = ({
     </div>
   ) : (
     <Link
-      className={`amiiboCardContainer ${colorThiefFinished ? "" : "hidden"} ${className ?? ""}`}
+      className={`AmiiboCard ${colorThiefFinished ? "" : "hidden"} ${className ?? ""}`}
       to={`/amiibo/${amiibo.head}${amiibo.tail}/?colorArray=${JSON.stringify(colorArray)}`}
     >
       <AmiiboCardContent

@@ -3,8 +3,7 @@ import "./OrderBySelect.scss";
 const OrderBySelect = ({ setIsAscending }) => {
   return (
     <select
-      name="orderBySelect"
-      className="orderBySelectSelect"
+      className="OrderBySelect"
       onChange={(e) =>
         e.target.value == "ascending"
           ? setIsAscending(true)

@@ -39,21 +39,21 @@ const AmiiboLibrary = ({
   }, [location]);
 
   return (
-    <div className={`amiiboLibraryContainer ${className ?? ""}`}>
+    <div className={`AmiiboLibrary ${className ?? ""}`}>
       <h1>{header}</h1>
       {isDesktop && (
-        <div className="amiiboLibraryDesktopControls">
+        <div className="desktop-controls">
           {showAddRemove && (
             <button
-              className={`amiiboLibraryAddRemoveButton ${isAddRemoveEnabled ? "active" : ""}`}
+              className={`add-remove-button ${isAddRemoveEnabled ? "active" : ""}`}
               onClick={() => setIsAddRemoveEnabled((prevState) => !prevState)}
             >
-              Add/Remove
+              Add / Remove
             </button>
           )}
           {isAddRemoveEnabled && selectedAmiiboIDs.size != 0 && (
             <button
-              className="amiiboLibraryConfirmChangesButton"
+              className="confirm-changes-button"
               onClick={async () => {
                 setIsAddRemoveEnabled(false);
                 setAmiiboList(
@@ -64,33 +64,33 @@ const AmiiboLibrary = ({
               Confirm Changes
             </button>
           )}
-          <div className="amiiboLibraryOwnershipCheckboxes">
+          <div className="ownership-checkboxes-container">
             {showOwnedUnowned && (
               <OwnershipCheckbox
-                forOwned={true}
+                labelText="Show Owned"
                 isChecked={shouldShowOwned}
                 handleCheck={setShouldShowOwned}
               />
             )}
             {showOwnedUnowned && (
               <OwnershipCheckbox
-                forOwned={false}
+                labelText="Show Unowned"
                 isChecked={shouldShowUnowned}
                 handleCheck={setShouldShowUnowned}
               />
             )}
           </div>
           <input
+            className="search-field"
             type="search"
             placeholder="Search"
-            className="amiiboLibrarySearch"
             onChange={(e) => filterAmiibos(e.target.value)}
           />
           <SortBySelect setSortBy={setSortBy} isRow={true} />
           <OrderBySelect setIsAscending={setIsAscending} />
         </div>
       )}
-      <div className="amiiboLibraryCardsContainer">
+      <div className="cards-container">
         {filteredAmiiboList.map((amiibo) => (
           <AmiiboCard
             className={`${!amiibo.collected ? "uncollected-card" : ""}`}

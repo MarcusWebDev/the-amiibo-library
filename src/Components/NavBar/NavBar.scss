@@ -1,0 +1,86 @@
+.NavBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background: white;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+
+  .mobile-hamburger-menu-placeholder {
+    width: 50px;
+    margin: 0 10px;
+  }
+
+  .logo {
+    margin: 0 25px;
+    font-size: medium;
+    justify-self: center;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+
+  .nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+
+    .links-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .link {
+        margin-right: 25px;
+        color: black;
+      }
+    }
+
+    .profile-picture {
+      border-radius: 80px;
+      height: 40px;
+      cursor: pointer;
+    }
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    right: 10px;
+    top: 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    margin-top: 5px;
+    list-style-type: none;
+    cursor: pointer;
+    overflow: hidden;
+
+    &.hidden {
+      display: none;
+    }
+
+    li {
+      padding: 10px;
+      width: 100%;
+
+      &:hover {
+        background: rgb(241, 241, 241);
+      }
+    }
+  }
+}

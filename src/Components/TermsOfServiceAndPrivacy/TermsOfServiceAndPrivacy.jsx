@@ -2,8 +2,8 @@ import "./TermsOfServiceAndPrivacy.scss";
 
 const TermsOfServiceAndPrivacy = ({}) => {
   return (
-    <div className="TOSAPContainer">
-      <h1 className="TOSAPHeader">Terms of Service / Privacy Policy</h1>
+    <div className="TermsOfServiceAndPrivacy">
+      <h1 className="header">Terms of Service / Privacy Policy</h1>
       <p>
         By using this site you acknowlege that this site is an unofficial,
         fan-made creation and has no affiliation with Nintendo or any other

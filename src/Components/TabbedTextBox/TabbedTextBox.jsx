@@ -7,8 +7,8 @@ const TabbedTextBox = ({ tabNames, contentArray, noContentMessage }) => {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   let keyCounter = 0;
   return (
-    <div className="TabbedTextBoxContainer">
-      <div className="TabbedTextBoxTabsContainer">
+    <div className="TabbedTextBox">
+      <div className="tabs-container">
         {tabNames.map((tabName, index) => (
           <Tab
             tabName={tabName}

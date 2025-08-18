@@ -25,7 +25,7 @@ const router = createHashRouter([
         path: "/amiibo",
         element: (
           <AmiiboLibrary
-            header={"Amiibo"}
+            header="Amiibo"
             showAddRemove={false}
             showOwnedUnowned={false}
             isCollection={false}
@@ -37,13 +37,13 @@ const router = createHashRouter([
         element: <AmiiboDetailsDataWrapper />,
       },
       {
-        path: "/mycollection",
+        path: "/myCollection",
         element: (
           <RequireAuthentication
             component={
               <AmiiboLibrary
                 className="collection-library"
-                header={"My Collection"}
+                header="My Collection"
                 showAddRemove={true}
                 showOwnedUnowned={true}
                 isCollection={true}

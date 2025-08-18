@@ -1,4 +1,4 @@
-.largeCaourselItemContainer {
+.LargeCarouselItem {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -7,32 +7,32 @@
   color: white;
   width: 100%;
   filter: saturate(4);
-}
 
-.largeCarouselItemHeader {
-  margin: 0 0 0 20px;
-  font-size: 4vw;
-  align-self: flex-start;
-}
+  .header {
+    margin: 0 0 0 20px;
+    font-size: 4vw;
+    align-self: flex-start;
+  }
 
-.largeCarouselItemCharacterName {
-  position: absolute;
-  z-index: 0;
-  text-wrap: nowrap;
-}
+  .character-name {
+    position: absolute;
+    z-index: 0;
+    text-wrap: nowrap;
+  }
 
-.largeCarouselItemImage {
-  height: 400px;
-  width: auto;
-  z-index: 1;
-  filter: saturate(0.25);
-  padding: 8px;
-}
+  .image {
+    height: 400px;
+    width: auto;
+    z-index: 1;
+    filter: saturate(0.25);
+    padding: 8px;
+  }
 
-@media (max-width: 600px) {
-  .largeCarouselItemCharacterName {
-    top: 65%;
-    z-index: 2;
-    text-shadow: 0 0 5px black;
+  @media (max-width: 600px) {
+    .character-name {
+      top: 65%;
+      z-index: 2;
+      text-shadow: 0 0 5px black;
+    }
   }
 }

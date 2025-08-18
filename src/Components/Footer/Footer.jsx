@@ -3,12 +3,12 @@ import "./Footer.scss";
 
 const Footer = () => {
   return (
-    <footer className="footerContainer">
-      <p className="footerDisclaimer">
+    <footer className="Footer">
+      <p className="disclaimer">
         This website is a fan creation by Marcus Brooks and is in no way
         affiliated with Nintendo.
       </p>
-      <Link to="/termsOfServiceAndPrivacy" className="footerTOS">
+      <Link className="terms-of-service" to="/termsOfServiceAndPrivacy">
         Terms of Service / Privacy Policy
       </Link>
     </footer>

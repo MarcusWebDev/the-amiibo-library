@@ -1,4 +1,4 @@
-.amiiboCardContainer {
+.AmiiboCard {
   position: relative;
   height: 30vh;
   width: 24vh;
@@ -10,6 +10,7 @@
   box-shadow: 0px 0px 3px black;
   margin: 20px auto;
   box-sizing: border-box;
+  cursor: pointer;
 
   &.pending-add {
     border: 2px solid #46ff00;
@@ -18,66 +19,67 @@
   &.pending-remove {
     border: 2px solid #ff0000;
   }
-}
-.amiiboCardContentContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  // This is to make the background color more vibrant.
-  filter: saturate(4);
-}
 
-.amiiboCardImage {
-  position: relative;
-  height: 100%;
-  // This is to make the saturation of the image normal after the filter for the content container has been applied.
-  filter: saturate(0.25);
-}
+  .icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1vh;
+    margin: 10px;
+    z-index: 1;
 
-.amiiboCardTextContainer {
-  background: white;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  color: black;
-  border-radius: 0 0 10px 10px;
-  padding: 2px 0;
-}
+    &.add-icon {
+      height: 5vh;
+      width: 5vh;
+      mask-image: url("../../assets/add.svg");
+      background-color: #46ff00;
+      border: 1px solid black;
+    }
 
-.amiiboCardNameText {
-  font-family: "Helvetica";
-  font-size: 3vh;
-  margin: 0;
-}
+    &.delete-icon {
+      height: 5vh;
+      width: 5vh;
+      mask-image: url("../../assets/delete.svg");
+      background-color: #ff0000;
+      border: 1px solid black;
+    }
+  }
 
-.amiiboCardSeriesText {
-  font-family: "Helvetica";
-  font-size: 2vh;
-  margin: 0;
-}
+  .AmiiboCardContent {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    // This is to make the background color more vibrant.
+    filter: saturate(4);
 
-.amiiboCardSelectedIcon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 1vh;
-  margin: 10px;
-  z-index: 1;
-}
+    .amiibo-image {
+      position: relative;
+      height: 100%;
+      // This is to make the saturation of the image normal after the filter for the content container has been applied.
+      filter: saturate(0.25);
+    }
 
-.amiiboCardAddIcon {
-  height: 5vh;
-  width: 5vh;
-  mask-image: url("../../assets/add.svg");
-  background-color: #46ff00;
-  border: 1px solid black;
-}
+    .text-container {
+      background: white;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      color: black;
+      border-radius: 0 0 10px 10px;
+      padding: 2px 0;
 
-.amiiboCardDeleteIcon {
-  height: 5vh;
-  width: 5vh;
-  mask-image: url("../../assets/delete.svg");
-  background-color: #ff0000;
-  border: 1px solid black;
+      .character-name {
+        font-family: "Helvetica";
+        font-size: 3vh;
+        margin: 0;
+      }
+
+      .series {
+        font-family: "Helvetica";
+        font-size: 2vh;
+        margin: 0;
+      }
+    }
+  }
 }

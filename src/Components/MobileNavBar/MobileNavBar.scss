@@ -1,122 +1,133 @@
-.mobileNavBarContainer {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background: white;
-  position: fixed;
-  left: 0;
-  top: 0;
-  border-radius: 0px 20px 20px 0px;
-  z-index: 10;
-  overflow-x: hidden;
-  transition: 0.5s;
-  box-shadow: 1px 1px 3px;
-  white-space: nowrap;
-}
-
-.mobileNavBarCloseZone {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 9;
-}
-
-.mobileNavBarBar {
-  display: block;
-  width: 25px;
-  height: 3px;
-  margin: 5px auto;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  background-color: black;
-}
-
-.mobileNavBarHamburger {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 11;
-  margin: 10px;
-}
-
-.mobileNavBarWidth {
-  width: 300px;
-}
-
-.noWidth {
-  width: 0;
-}
-
-.mobileNavBarContentContainer {
-  margin-top: 30px;
-}
-
-.mobileNavBarH2 {
-  font-size: Large;
-}
-
-.mobileNavBarLinksContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.mobileNavBarLink {
-  color: black;
-  margin: 5px 0px;
-}
-
-.mobileNavBarSearch {
-  padding: 5px 10px 5px 25px;
-  border-radius: 8px;
-  background: url("../../assets/search_icon.svg") no-repeat 2% center;
-  background-size: 18px;
-  border: none;
-  background-color: #eaeaea;
-}
-
-.mobileNavBarAddRemoveButton {
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid black;
-  margin: 10px 0 5px 0;
-  font-size: medium;
-  background: transparent;
-  cursor: pointer;
-}
-.mobileNavBarConfirmChangesButton {
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid black;
-  margin: 10px 0 5px 0;
-  font-size: medium;
-  background: transparent;
-  cursor: pointer;
-}
-
-.mobileNavBarAddRemoveButton.active {
-  background: #28b1ff;
-  color: white;
-}
-@media (max-width: 1450px) {
-  .mobileNavBarHamburger {
-    display: block;
+.MobileNavBar {
+  .hamburger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    margin: 10px;
     cursor: pointer;
+
+    .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      margin: 5px auto;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+      background-color: black;
+    }
   }
 
-  .mobileNavBarHamburger.active .mobileNavBarBar:nth-child(2) {
-    opacity: 0;
+  .nav-bar-container {
+    height: 100vh;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-radius: 0px 20px 20px 0px;
+    z-index: 10;
+    overflow-x: hidden;
+    transition: 0.3s;
+    box-shadow: 1px 1px 3px;
+    white-space: nowrap;
+
+    &.no-width {
+      width: 0;
+    }
+
+    .header {
+      margin-top: 30px;
+      font-size: Large;
+    }
+
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .link {
+        color: black;
+        margin: 5px 0px;
+      }
+    }
+
+    .search-field {
+      margin: 5px;
+      padding: 5px 10px 5px 25px;
+      border-radius: 8px;
+      background: url("../../assets/search_icon.svg") no-repeat 2% center;
+      background-size: 18px;
+      border: none;
+      background-color: #eaeaea;
+      font-size: 16px;
+    }
+
+    .add-remove-button {
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid black;
+      margin: 10px 0 5px 0;
+      font-size: medium;
+      background: transparent;
+      cursor: pointer;
+
+      &.active {
+        background: #28b1ff;
+        color: white;
+
+        // Setting the border to white, instead of removing it, to prevent a size change, which would shift other elements.
+        border: 1px solid white;
+      }
+    }
+
+    .confirm-changes-button {
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid black;
+      margin: 10px 0 5px 0;
+      font-size: medium;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .sort-by-select {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+    }
+
+    .checkbox-container {
+      margin-top: 10px;
+    }
   }
 
-  .mobileNavBarHamburger.active .mobileNavBarBar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-  }
+  @media (max-width: 1450px) {
+    .hamburger {
+      display: block;
+      cursor: pointer;
 
-  .mobileNavBarHamburger.active .mobileNavBarBar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+      &.active {
+        .bar:nth-child(2) {
+          opacity: 0;
+        }
+
+        .bar:nth-child(1) {
+          transform: translateY(8px) rotate(45deg);
+        }
+
+        .bar:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg);
+        }
+      }
+    }
   }
 }

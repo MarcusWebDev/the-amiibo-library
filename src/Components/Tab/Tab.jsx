@@ -3,7 +3,7 @@ import "./Tab.scss";
 const Tab = ({ tabName, isSelected, handleClick }) => {
   return (
     <div
-      className={`tabContainer ${isSelected && "selected"}`}
+      className={`Tab ${isSelected && "selected"}`}
       onClick={() => handleClick()}
     >
       {tabName}

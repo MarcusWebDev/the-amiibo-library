@@ -1,14 +1,12 @@
 import "./OwnershipCheckbox.scss";
 
-const OwnershipCheckbox = ({ forOwned, isChecked, handleCheck }) => {
+const OwnershipCheckbox = ({ labelText, isChecked, handleCheck }) => {
   return (
-    <div className="ownershipCheckboxContainer">
-      <label htmlFor={`${forOwned ? "shouldShowOwned" : "shouldShowUnowned"}`}>
-        Show {forOwned ? "Owned" : "Unowned"}
-      </label>
+    <div className="OwnershipCheckbox">
+      <label htmlFor={labelText}>{labelText}</label>
       <input
         type="checkbox"
-        name={`${forOwned ? "shouldShowOwned" : "shouldShowUnowned"}`}
+        name={labelText}
         onChange={(e) => handleCheck(e.target.checked)}
         checked={isChecked}
       />

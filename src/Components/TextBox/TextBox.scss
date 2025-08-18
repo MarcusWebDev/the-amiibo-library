@@ -1,13 +1,13 @@
-.textBoxContainer {
+.TextBox {
   width: 80vw;
   border: 1px solid black;
   padding: 25px;
-}
 
-.textBoxHeader {
-  margin: 10px 0;
-}
+  .header {
+    margin: 10px 0;
+  }
 
-.textBoxBody {
-  margin: 0;
+  .body {
+    margin: 0;
+  }
 }

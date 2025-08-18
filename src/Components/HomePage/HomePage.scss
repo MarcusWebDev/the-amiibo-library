@@ -1,23 +1,20 @@
-.homePageContainer {
+.HomePage {
   padding: 50px 0 22vh 0;
   position: relative;
-}
-.homePageFirstCarousel {
-  overflow: hidden;
-}
 
-.homePageFirstCarouselImage {
-  max-height: 400px;
-}
+  .main-carousel {
+    overflow: hidden;
+  }
 
-.homePageCollectionHeader {
-  font-size: 40px;
-}
+  .collection-header {
+    font-size: 40px;
+  }
 
-.homePageCollectionCarousel {
-  margin-left: 40px;
-}
+  .collection-carousel {
+    margin-left: 40px;
+  }
 
-.react-multiple-carousel__arrow {
-  z-index: 2;
+  .react-multiple-carousel__arrow {
+    z-index: 2;
+  }
 }

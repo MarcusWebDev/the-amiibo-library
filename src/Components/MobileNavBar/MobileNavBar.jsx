@@ -24,33 +24,26 @@ const MobileNavBar = ({
   const location = useLocation();
 
   return (
-    <div>
+    <div className="MobileNavBar">
       <div
-        className={`mobileNavBarCloseZone ${isVisible ? "" : "hidden"}`}
-        onClick={() => setIsVisible(false)}
-      />
-      <div
-        className={`mobileNavBarHamburger ${isVisible ? "active" : ""}`}
+        className={`hamburger ${isVisible ? "active" : ""}`}
         onClick={() => setIsVisible(!isVisible)}
       >
-        <span className="mobileNavBarBar"></span>
-        <span className="mobileNavBarBar"></span>
-        <span className="mobileNavBarBar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
       </div>
-      <div
-        className={`mobileNavBarContainer ${isVisible ? "mobileNavBarWidth" : "noWidth"}`}
-      >
-        <div className="mobileNavBarContentContainer"></div>
-        <h2 className="mobileNavBarH2">Site Navigation</h2>
-        <div className="mobileNavBarLinksContainer">
-          <Link to="/" className="mobileNavBa-rLink">
+      <div className={`nav-bar-container ${isVisible ? "" : "no-width"}`}>
+        <h2 className="header">Site Navigation</h2>
+        <div className="links-container">
+          <Link to="/" className="link">
             Home
           </Link>
-          <Link to="/amiibo" className="mobileNavBarLink">
+          <Link to="/amiibo" className="link">
             Amiibo
           </Link>
           {isSignedIn && (
-            <Link to="/myCollection" className="mobileNavBarLink">
+            <Link to="/myCollection" className="link">
               My Collection
             </Link>
           )}
@@ -58,24 +51,23 @@ const MobileNavBar = ({
 
         {(location.pathname == "/amiibo" ||
           location.pathname == "/myCollection") && (
-          <h2 className="mobileNavBarH2">Page Tools</h2>
-        )}
-        {(location.pathname == "/amiibo" ||
-          location.pathname == "/myCollection") && (
-          <input
-            type="search"
-            placeholder="Search"
-            className="mobileNavBarSearch"
-            onChange={(e) => filterAmiibos(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && setIsVisible(false)}
-          />
+          <>
+            <h2 className="header">Page Tools</h2>
+            <input
+              type="search"
+              placeholder="Search"
+              className="search-field"
+              onChange={(e) => filterAmiibos(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && setIsVisible(false)}
+            />
+          </>
         )}
         {location.pathname == "/myCollection" && (
           <button
-            className={`mobileNavBarAddRemoveButton ${isAddRemoveEnabled ? "active" : ""}`}
+            className={`add-remove-button ${isAddRemoveEnabled ? "active" : ""}`}
             onClick={() => setIsAddRemoveEnabled((prevState) => !prevState)}
           >
-            Add/Remove
+            Add / Remove
           </button>
         )}
 
@@ -83,7 +75,7 @@ const MobileNavBar = ({
           selectedAmiiboIDs.size > 0 &&
           location.pathname == "/myCollection" && (
             <button
-              className="mobileNavBarConfirmChangesButton"
+              className="confirm-changes-button"
               onClick={async () => {
                 setIsAddRemoveEnabled(false);
                 setAmiiboList(
@@ -96,25 +88,24 @@ const MobileNavBar = ({
           )}
         {(location.pathname == "/amiibo" ||
           location.pathname == "/myCollection") && (
-          <SortBySelect setSortBy={setSortBy} />
-        )}
-        {(location.pathname == "/amiibo" ||
-          location.pathname == "/myCollection") && (
-          <OrderBySelect setIsAscending={setIsAscending} />
-        )}
-        {location.pathname == "/myCollection" && (
-          <OwnershipCheckbox
-            forOwned={true}
-            isChecked={shouldShowOwned}
-            handleCheck={setShouldShowOwned}
-          />
+          <>
+            <SortBySelect className="sort-by-select" setSortBy={setSortBy} />
+            <OrderBySelect setIsAscending={setIsAscending} />
+          </>
         )}
         {location.pathname == "/myCollection" && (
-          <OwnershipCheckbox
-            forOwned={false}
-            isChecked={shouldShowUnowned}
-            handleCheck={setShouldShowUnowned}
-          />
+          <div className="checkbox-container">
+            <OwnershipCheckbox
+              labelText="Show Owned"
+              isChecked={shouldShowOwned}
+              handleCheck={setShouldShowOwned}
+            />
+            <OwnershipCheckbox
+              labelText="Show Unowned"
+              isChecked={shouldShowUnowned}
+              handleCheck={setShouldShowUnowned}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -1,18 +1,20 @@
-.sortBySelectContainer {
+.SortBySelect {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 5px;
-}
 
-.sortBySelectLabel {
-  pointer-events: none;
-}
+  label {
+    pointer-events: none;
+    margin-right: 10px;
+  }
 
-.sortBySelectSelect {
-  border: 1px solid black;
-  font-size: medium;
-  border-radius: 8px;
-  padding: 5px 10px;
-  height: fit-content;
+  select {
+    border: 1px solid black;
+    font-size: medium;
+    border-radius: 8px;
+    padding: 5px 10px;
+    height: fit-content;
+    cursor: pointer;
+  }
 }

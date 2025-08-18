@@ -1,74 +1,81 @@
-.amiiboLibraryContainer {
+.AmiiboLibrary {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 60px 0 20vh 0;
   margin: 0px 20px;
-}
 
-.amiiboLibraryCardsContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: wrap;
-}
+  .desktop-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 
-.amiiboLibraryDesktopControls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
+    .add-remove-button {
+      padding: 5px 10px 5px 10px;
+      border-radius: 8px;
+      border: 1px solid black;
+      background: white;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 16px;
 
-.amiiboLibrarySearch {
-  margin: 5px;
-  padding: 5px 10px 5px 25px;
-  border-radius: 8px;
-  background: url("../../assets/search_icon.svg") no-repeat 2% center;
-  background-size: 18px;
-  border: none;
-  background-color: #eaeaea;
-}
+      &:hover {
+        background: #d8f1ff;
+      }
 
-.amiiboLibraryAddRemoveButton {
-  padding: 5px 10px 5px 10px;
-  border-radius: 8px;
-  border: 1px solid black;
-  background: white;
-  cursor: pointer;
-  margin: 5px;
-}
+      &.active {
+        background: #28b1ff;
+        color: white;
 
-.amiiboLibraryAddRemoveButton:hover {
-  background: #d8f1ff;
-}
+        // Setting the border to white, instead of removing it, to prevent a size change, which would shift other elements.
+        border: 1px solid white;
+      }
+    }
 
-.amiiboLibraryAddRemoveButton.active {
-  background: #28b1ff;
-  color: white;
-}
+    .confirm-changes-button {
+      padding: 5px 10px 5px 10px;
+      border-radius: 8px;
+      border: 1px solid black;
+      background: white;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 16px;
 
-.amiiboLibraryConfirmChangesButton {
-  padding: 5px 10px 5px 10px;
-  border-radius: 8px;
-  border: 1px solid black;
-  background: white;
-  cursor: pointer;
-  margin: 5px;
-}
-.amiiboLibraryConfirmChangesButton:hover {
-  background: #d8f1ff;
-}
+      &:hover {
+        background: #d8f1ff;
+      }
+    }
 
-.amiiboLibraryOwnershipCheckboxes {
-  margin: 5px;
+    .ownership-checkboxes-container {
+      margin: 5px;
+    }
+
+    .search-field {
+      margin: 0 10px;
+      padding: 5px 10px 5px 25px;
+      border-radius: 8px;
+      background: url("../../assets/search_icon.svg") no-repeat 2% center;
+      background-size: 18px;
+      border: none;
+      background-color: #eaeaea;
+      font-size: 16px;
+    }
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 }
 
 .collection-library {
   .uncollected-card {
-    .amiiboCardContentContainer {
+    .AmiiboCardContent {
       filter: saturate(0);
     }
   }

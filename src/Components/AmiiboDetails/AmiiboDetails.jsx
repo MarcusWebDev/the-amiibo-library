@@ -19,23 +19,23 @@ const AmiiboDetails = ({ amiibo, colorArray, user, handleCollect }) => {
   ]);
 
   return (
-    <div className="amiiboDetailsContainer">
+    <div className="AmiiboDetails">
       <div
-        className="amiiboDetailsBackground"
+        className="background"
         style={{
           background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`,
         }}
       />
-      <h1 className="amiiboDetailsNameHeader">{amiibo.character}</h1>
-      <h2 className="amiiboDetailsSeriesHeader">{amiibo.amiiboSeries}</h2>
-      <img className="amiiboDetailsImage" src={amiibo.image} />
-      <p className="amiiboDetailsDetails">
+      <h1 className="name-header">{amiibo.character}</h1>
+      <h2 className="series-header">{amiibo.amiiboSeries}</h2>
+      <img className="image" src={amiibo.image} />
+      <p className="detail">
         <strong>Original Game Series</strong>: {amiibo.gameSeries}
       </p>
-      <p className="amiiboDetailsDetails">
+      <p className="detail">
         <strong>Release Dates</strong>:
       </p>
-      <ul className="amiiboDetailsReleaseDates">
+      <ul className="release-dates">
         <li>
           <strong>North America</strong>:{" "}
           {new Date(amiibo.release.na).toLocaleDateString()}
@@ -54,25 +54,19 @@ const AmiiboDetails = ({ amiibo, colorArray, user, handleCollect }) => {
         </li>
       </ul>
       {user != null && !amiibo.collected && (
-        <button
-          className="amiiboDetailsCollectionButton"
-          onClick={() => handleCollect()}
-        >
+        <button className="collection-button" onClick={() => handleCollect()}>
           Add to collection
         </button>
       )}
       {user != null && amiibo.collected && (
-        <button
-          className="amiiboDetailsCollectionButton"
-          onClick={() => handleCollect()}
-        >
+        <button className="collection-button" onClick={() => handleCollect()}>
           Remove from collection
         </button>
       )}
-      <p className="amiiboDetailsDetails">
+      <p className="detail">
         <strong>Usages:</strong>
       </p>
-      <div className="amiiboDetailsTextBoxContainer">
+      <div className="text-box-container">
         <TabbedTextBox
           tabNames={["Switch", "3DS", "Wii U"]}
           contentArray={[SwitchGames, ThreeDSGames, WiiUGames]}

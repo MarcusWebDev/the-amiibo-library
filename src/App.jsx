@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import MobileNavBar from "./components/MobileNavBar";
-import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import React from "react";
 import "./App.scss";
@@ -229,12 +229,12 @@ function App() {
     if (isGoogleSignInInitialized && user === null) {
       if (isDesktop) {
         window.google.accounts.id.renderButton(
-          document.getElementById("headerSignIn"),
+          document.getElementById("sign-in"),
           { theme: "outline", size: "medium" },
         );
       } else {
         window.google.accounts.id.renderButton(
-          document.getElementById("headerSignIn"),
+          document.getElementById("sign-in"),
           { theme: "outline", size: "medium", type: "icon" },
         );
       }
@@ -259,13 +259,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
+      <NavBar isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
       {!isDesktop && (
         <MobileNavBar
           filterAmiibos={filterAmiibos}
           setIsAscending={setIsAscending}
           setSortBy={setSortBy}
-          isSignedIn={user !== undefined}
+          isSignedIn={user !== null}
           toggleSelectedAmiiboCollection={toggleSelectedAmiiboCollection}
           isAddRemoveEnabled={isAddRemoveEnabled}
           setIsAddRemoveEnabled={setIsAddRemoveEnabled}

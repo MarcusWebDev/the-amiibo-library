@@ -52,22 +52,20 @@ const LargeCarouselItem = ({ amiibo }) => {
   return (
     <Link
       ref={containerRef}
-      className="largeCaourselItemContainer"
+      className="LargeCarouselItem"
       to={`/amiibo/${amiibo.head}${amiibo.tail}/?colorArray=${JSON.stringify(colorArray)}`}
       style={{
         background: `linear-gradient(180deg, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 1) 0%, rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0) 100%)`,
       }}
     >
-      {isReleasedWithinThirtyDays && (
-        <h1 className="largeCarouselItemHeader">New Arrival</h1>
-      )}
-      <span ref={nameRef} className="largeCarouselItemCharacterName">
+      {isReleasedWithinThirtyDays && <h1 className="header">New Arrival</h1>}
+      <span ref={nameRef} className="character-name">
         {amiibo.character}
       </span>
       <img
+        className="image"
         src={amiibo.image}
         ref={imageRef}
-        className="largeCarouselItemImage"
         crossOrigin="anonymous"
       />
     </Link>

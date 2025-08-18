@@ -6,7 +6,7 @@ const RequireAuthentication = ({ component }) => {
   const { user } = useOutletContext();
 
   React.useEffect(() => {
-    if (user == null) {
+    if (!user) {
       navigate("/");
     }
   }, [user]);

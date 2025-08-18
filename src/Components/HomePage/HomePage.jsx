@@ -74,10 +74,10 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="homePageContainer">
+    <div className="HomePage">
       <Carousel
         responsive={responsiveLarge}
-        className="homePageFirstCarousel"
+        className="main-carousel"
         autoPlay={true}
         infinite={true}
         autoPlaySpeed={7000}
@@ -91,11 +91,8 @@ const HomePage = () => {
           );
         })}
       </Carousel>
-      <h2 className="homePageCollectionHeader">Most Collected</h2>
-      <Carousel
-        responsive={responsiveSmall}
-        className="homePageCollectionCarousel"
-      >
+      <h2 className="collection-header">Most Collected</h2>
+      <Carousel responsive={responsiveSmall} className="collection-carousel">
         {amiiboList
           .filter((amiibo) =>
             mostCollected.some(
@@ -127,11 +124,8 @@ const HomePage = () => {
             );
           })}
       </Carousel>
-      <h2 className="homePageCollectionHeader">Least Collected</h2>
-      <Carousel
-        responsive={responsiveSmall}
-        className="homePageCollectionCarousel"
-      >
+      <h2 className="collection-header">Least Collected</h2>
+      <Carousel responsive={responsiveSmall} className="collection-carousel">
         {amiiboList
           .filter((amiibo) =>
             leastCollected.some(
