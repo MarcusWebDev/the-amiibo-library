@@ -92,7 +92,7 @@ const HomePage = () => {
         })}
       </Carousel>
       <h2 className="collection-header">Most Collected</h2>
-      <Carousel responsive={responsiveSmall} className="collection-carousel">
+      <Carousel responsive={responsiveSmall}>
         {amiiboList
           .filter((amiibo) =>
             mostCollected.some(
@@ -125,7 +125,7 @@ const HomePage = () => {
           })}
       </Carousel>
       <h2 className="collection-header">Least Collected</h2>
-      <Carousel responsive={responsiveSmall} className="collection-carousel">
+      <Carousel responsive={responsiveSmall}>
         {amiiboList
           .filter((amiibo) =>
             leastCollected.some(
