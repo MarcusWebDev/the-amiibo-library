@@ -277,30 +277,32 @@ function App() {
           setShouldShowUnowned={setShouldShowUnowned}
         />
       )}
-      <Outlet
-        context={{
-          user,
-          amiiboList,
-          setAmiiboList,
-          filteredAmiiboList,
-          amiiboBackgroundColors,
-          setAmiiboBackgroundColor,
-          isDesktop,
-          setSortBy,
-          setIsAscending,
-          filterAmiibos,
-          isAddRemoveEnabled,
-          setIsAddRemoveEnabled,
-          toggleSelectedAmiiboCollection,
-          selectedAmiiboIDs,
-          setSelectedAmiiboIDs,
-          shouldShowOwned,
-          setShouldShowOwned,
-          shouldShowUnowned,
-          setShouldShowUnowned,
-          windowDimensions,
-        }}
-      />
+      <main>
+        <Outlet
+          context={{
+            user,
+            amiiboList,
+            setAmiiboList,
+            filteredAmiiboList,
+            amiiboBackgroundColors,
+            setAmiiboBackgroundColor,
+            isDesktop,
+            setSortBy,
+            setIsAscending,
+            filterAmiibos,
+            isAddRemoveEnabled,
+            setIsAddRemoveEnabled,
+            toggleSelectedAmiiboCollection,
+            selectedAmiiboIDs,
+            setSelectedAmiiboIDs,
+            shouldShowOwned,
+            setShouldShowOwned,
+            shouldShowUnowned,
+            setShouldShowUnowned,
+            windowDimensions,
+          }}
+        />
+      </main>
       <Footer />
     </div>
   );

@@ -1,7 +1,7 @@
 import "./LoadingSpinner.scss";
 
-const LoadingSpinner = () => {
-  return <div className="LoadingSpinner" />;
+const LoadingSpinner = ({ className }) => {
+  return <div className={`LoadingSpinner ${className ?? ""}`} />;
 };
 
 export default LoadingSpinner;

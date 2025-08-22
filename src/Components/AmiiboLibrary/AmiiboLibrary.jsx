@@ -5,6 +5,7 @@ import OrderBySelect from "../OrderBySelect";
 import OwnershipCheckbox from "../OwnershipCheckbox";
 import SortBySelect from "../SortBySelect";
 import "./AmiiboLibrary.scss";
+import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 
 const AmiiboLibrary = ({
   className,
@@ -90,18 +91,23 @@ const AmiiboLibrary = ({
           <OrderBySelect setIsAscending={setIsAscending} />
         </div>
       )}
-      <div className="cards-container">
-        {filteredAmiiboList.map((amiibo) => (
-          <AmiiboCard
-            className={`${!amiibo.collected ? "uncollected-card" : ""}`}
-            amiibo={amiibo}
-            key={`${amiibo.head}${amiibo.tail}`}
-            isAddRemoveEnabled={isAddRemoveEnabled}
-            setSelectedAmiiboIDs={setSelectedAmiiboIDs}
-            isSelected={selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)}
-          />
-        ))}
-      </div>
+      <LoadingSpinnerWrapper
+        className="loading-container"
+        isLoading={!filteredAmiiboList.length}
+      >
+        <div className="cards-container">
+          {filteredAmiiboList.map((amiibo) => (
+            <AmiiboCard
+              className={`${!amiibo.collected ? "uncollected-card" : ""}`}
+              amiibo={amiibo}
+              key={`${amiibo.head}${amiibo.tail}`}
+              isAddRemoveEnabled={isAddRemoveEnabled}
+              setSelectedAmiiboIDs={setSelectedAmiiboIDs}
+              isSelected={selectedAmiiboIDs.has("" + amiibo.head + amiibo.tail)}
+            />
+          ))}
+        </div>
+      </LoadingSpinnerWrapper>
     </div>
   );
 };
