@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { RouterProvider, createHashRouter } from "react-router-dom";
+
 import "./index.scss";
+
 import App from "./App.jsx";
-import reportWebVitals from "./reportWebVitals";
-import { createHashRouter, RouterProvider } from "react-router-dom";
-import AmiiboLibrary from "./components/AmiiboLibrary";
 import AmiiboDetailsDataWrapper from "./components/AmiiboDetailsDataWrapper";
-import TermsOfServiceAndPrivacy from "./components/TermsOfServiceAndPrivacy";
+import AmiiboLibrary from "./components/AmiiboLibrary";
 import HomePage from "./components/HomePage";
 import RequireAuthentication from "./components/RequireAuthentication";
+import TermsOfServiceAndPrivacy from "./components/TermsOfServiceAndPrivacy";
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

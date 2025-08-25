@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+
+import "./MobileNavBar.scss";
+
 import OrderBySelect from "../OrderBySelect";
 import OwnershipCheckbox from "../OwnershipCheckbox";
 import SortBySelect from "../SortBySelect";
-import "./MobileNavBar.scss";
 
 const MobileNavBar = ({
   isSignedIn,

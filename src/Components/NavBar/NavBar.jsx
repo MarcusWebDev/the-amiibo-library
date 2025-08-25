@@ -1,6 +1,7 @@
-import "./NavBar.scss";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import "./NavBar.scss";
 
 const NavBar = ({ isDesktop, user, handleSignOut }) => {
   const [dropdownVisible, setDropdownVisible] = React.useState(false);

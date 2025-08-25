@@ -1,4 +1,5 @@
 import { useOutletContext, useParams, useSearchParams } from "react-router-dom";
+
 import AmiiboDetails from "../AmiiboDetails";
 
 const AmiiboDetailsDataWrapper = () => {

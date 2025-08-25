@@ -1,10 +1,12 @@
-import { Outlet } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import React from "react";
+import { Outlet } from "react-router-dom";
+
+import "./App.scss";
+
+import Footer from "./components/Footer";
 import MobileNavBar from "./components/MobileNavBar";
 import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import React from "react";
-import "./App.scss";
 
 function App() {
   const [amiiboList, setAmiiboList] = React.useState([]);

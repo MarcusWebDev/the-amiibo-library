@@ -1,7 +1,9 @@
 import React from "react";
+
+import "./TabbedTextBox.scss";
+
 import Tab from "../Tab";
 import TextBox from "../TextBox";
-import "./TabbedTextBox.scss";
 
 const TabbedTextBox = ({ tabNames, contentArray, noContentMessage }) => {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);

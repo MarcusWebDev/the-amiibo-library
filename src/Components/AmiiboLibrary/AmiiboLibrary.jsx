@@ -1,11 +1,13 @@
 import React from "react";
 import { useLocation, useOutletContext } from "react-router-dom";
+
+import "./AmiiboLibrary.scss";
+
 import AmiiboCard from "../AmiiboCard";
+import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 import OrderBySelect from "../OrderBySelect";
 import OwnershipCheckbox from "../OwnershipCheckbox";
 import SortBySelect from "../SortBySelect";
-import "./AmiiboLibrary.scss";
-import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 
 const AmiiboLibrary = ({
   className,

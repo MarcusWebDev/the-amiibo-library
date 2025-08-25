@@ -1,7 +1,8 @@
-import React from "react";
-import { Link, useOutletContext } from "react-router-dom";
 // This import statement looks weird, but this is how they imported it in the documentation https://lokeshdhakar.com/projects/color-thief/
 import ColorThief from "colorthief";
+import React from "react";
+import { Link, useOutletContext } from "react-router-dom";
+
 import "./AmiiboCard.scss";
 
 const AmiiboCardContent = ({ amiibo, colorArray, imageRef }) => {

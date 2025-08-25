@@ -2,9 +2,11 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useOutletContext } from "react-router-dom";
+
+import "./HomePage.scss";
+
 import AmiiboCard from "../AmiiboCard";
 import LargeCarouselItem from "../LargeCarouselItem";
-import "./HomePage.scss";
 import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 
 const HomePage = () => {

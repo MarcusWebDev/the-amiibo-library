@@ -1,8 +1,10 @@
-import React from "react";
-import { useOutletContext, Link } from "react-router-dom";
 import ColorThief from "colorthief";
-import { shrinkTextToFitContainer } from "../../utils/textUtils.jsx";
+import React from "react";
+import { Link, useOutletContext } from "react-router-dom";
+
 import "./LargeCarouselItem.scss";
+
+import { shrinkTextToFitContainer } from "../../utils/textUtils.jsx";
 
 const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 

@@ -1,6 +1,7 @@
+import "./AmiiboDetails.scss";
+
 import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 import TabbedTextBox from "../TabbedTextBox";
-import "./AmiiboDetails.scss";
 
 const AmiiboDetails = ({ amiibo, colorArray, user, handleCollect }) => {
   const SwitchGames = amiibo?.gamesSwitch.map((game) => [
