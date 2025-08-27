@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -8,15 +8,19 @@ import Footer from "./components/Footer";
 import MobileNavBar from "./components/MobileNavBar";
 import NavBar from "./components/NavBar";
 
+const isSearchStringMatch = (amiibo, searchString) =>
+  amiibo.character.toLowerCase().includes(searchString.toLowerCase()) ||
+  amiibo.amiiboSeries.toLowerCase().includes(searchString.toLowerCase());
+
 function App() {
   const [amiiboList, setAmiiboList] = React.useState([]);
   const [filteredAmiiboList, setFilteredAmiiboList] = React.useState([]);
   const [amiiboBackgroundColors, setAmiiboBackgroundColors] = React.useState(
     new Map(),
   );
+  const [searchString, setSearchString] = React.useState("");
   const [sortBy, setSortBy] = React.useState("characterName");
   const [isAscending, setIsAscending] = React.useState(true);
-  const [searchText, setSearchText] = React.useState("");
   const [isAddRemoveEnabled, setIsAddRemoveEnabled] = React.useState(false);
   const [selectedAmiiboIDs, setSelectedAmiiboIDs] = React.useState(new Set());
   const [isDesktop, setIsDesktop] = React.useState(false);
@@ -30,161 +34,168 @@ function App() {
   const [shouldShowOwned, setShouldShowOwned] = React.useState(true);
   const [shouldShowUnowned, setShouldShowUnowned] = React.useState(true);
 
-  const filterAmiibos = (initialString) => {
-    const searchString = initialString.toLowerCase();
-    const isSearchStringMatch = (amiibo) =>
-      amiibo.character.toLowerCase().includes(searchString) ||
-      amiibo.amiiboSeries.toLowerCase().includes(searchString);
-    setSearchText(searchString);
+  const amiiboComparator = React.useCallback(
+    (a, b) => {
+      if (sortBy === "releaseDate") {
+        if (isAscending) {
+          return new Date(a.release.na) - new Date(b.release.na);
+        } else {
+          return new Date(b.release.na) - new Date(a.release.na);
+        }
+      } else if (sortBy === "characterName") {
+        if (isAscending) {
+          return a.character.localeCompare(b.character);
+        } else {
+          return b.character.localeCompare(a.character);
+        }
+      } else if (sortBy === "amiiboSeries") {
+        if (isAscending) {
+          return a.amiiboSeries.localeCompare(b.amiiboSeries);
+        } else {
+          return b.amiiboSeries.localeCompare(a.amiiboSeries);
+        }
+      } else {
+        console.error(`Error: invalid sortBy: '${sortBy}'.`);
+      }
+    },
+    [sortBy, isAscending],
+  );
 
+  // Filter the amiibos based on various criteria.
+  React.useEffect(() => {
     if (shouldShowOwned && shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter((amiibo) => isSearchStringMatch(amiibo))
+          .filter((amiibo) => isSearchStringMatch(amiibo, searchString))
           .sort(amiiboComparator),
       );
     } else if (shouldShowOwned && !shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter((amiibo) => amiibo.collected && isSearchStringMatch(amiibo))
+          .filter(
+            (amiibo) =>
+              amiibo.collected && isSearchStringMatch(amiibo, searchString),
+          )
           .sort(amiiboComparator),
       );
     } else if (!shouldShowOwned && shouldShowUnowned) {
       setFilteredAmiiboList(
         amiiboList
-          .filter((amiibo) => !amiibo.collected && isSearchStringMatch(amiibo))
+          .filter(
+            (amiibo) =>
+              !amiibo.collected && isSearchStringMatch(amiibo, searchString),
+          )
           .sort(amiiboComparator),
       );
     } else {
       setFilteredAmiiboList([]);
     }
-  };
+  }, [
+    amiiboList,
+    amiiboComparator,
+    searchString,
+    shouldShowOwned,
+    shouldShowUnowned,
+  ]);
 
-  const toggleSelectedAmiiboCollection = async (selectedIDs) => {
-    const databaseRequestArray = [];
-    const newArray = amiiboList.map((amiibo) => {
-      if (selectedIDs.has("" + amiibo.head + amiibo.tail)) {
-        const newAmiibo = { ...amiibo, collected: !amiibo.collected };
+  const toggleSelectedAmiiboCollection = React.useCallback(
+    async (selectedIDs) => {
+      const amiibosToToggle = [];
 
-        databaseRequestArray.push(newAmiibo);
+      // Toggle the amiibos on the client side
+      const newAmiiboList = amiiboList.map((amiibo) => {
+        if (selectedIDs.has("" + amiibo.head + amiibo.tail)) {
+          const newAmiibo = { ...amiibo, collected: !amiibo.collected };
 
-        return newAmiibo;
+          amiibosToToggle.push(newAmiibo);
+
+          return newAmiibo;
+        } else {
+          return amiibo;
+        }
+      });
+
+      let requestComplete = false;
+
+      // Toggle the amiibos in the database
+      await fetch("https://api.amiibolibrary.com/collection", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user: user,
+          amiibos: amiibosToToggle,
+        }),
+      })
+        .then(() => (requestComplete = true))
+        .catch((e) => console.error(e));
+
+      setSelectedAmiiboIDs(new Set());
+
+      if (requestComplete) {
+        return newAmiiboList;
       } else {
-        return amiibo;
+        return amiiboList;
       }
-    });
+    },
+    [amiiboList, user],
+  );
 
-    let requestComplete = false;
-
-    await fetch("https://api.amiibolibrary.com/collection", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user: user,
-        amiibos: databaseRequestArray,
-      }),
-    })
-      .then((response) => response.json())
-      .then(() => (requestComplete = true))
-      .catch((e) => console.error(e));
-
-    setSelectedAmiiboIDs(new Set());
-
-    if (requestComplete) {
-      return newArray;
-    } else {
-      return amiiboList;
-    }
-  };
-
-  const amiiboComparator = (a, b) => {
-    if (sortBy === "releaseDate") {
-      if (isAscending) {
-        return new Date(a.release.na) - new Date(b.release.na);
-      } else {
-        return new Date(b.release.na) - new Date(a.release.na);
-      }
-    } else if (sortBy === "characterName") {
-      if (isAscending) {
-        return a.character.localeCompare(b.character);
-      } else {
-        return b.character.localeCompare(a.character);
-      }
-    } else if (sortBy === "amiiboSeries") {
-      if (isAscending) {
-        return a.amiiboSeries.localeCompare(b.amiiboSeries);
-      } else {
-        return b.amiiboSeries.localeCompare(a.amiiboSeries);
-      }
-    } else {
-      console.error(`Error: invalid sortBy: '${sortBy}'.`);
-    }
-  };
-
-  const setAmiiboBackgroundColor = (amiibo, color) => {
-    setAmiiboBackgroundColors((prevState) => {
-      const newMap = new Map(prevState);
+  const setAmiiboBackgroundColor = React.useCallback((amiibo, color) => {
+    setAmiiboBackgroundColors((prevAmiiboBackgroundColors) => {
+      const newMap = new Map(prevAmiiboBackgroundColors);
 
       newMap.set("" + amiibo.head + amiibo.tail, color);
 
       return newMap;
     });
-  };
+  }, []);
 
-  const handleCallbackResponse = (response) => {
-    const userObject = jwt_decode(response.credential);
+  const handleGoogleResponse = React.useCallback((response) => {
+    const userObject = jwtDecode(response.credential);
 
     setUser(userObject);
-  };
 
-  const handleSignOut = () => {
-    setUser(null);
-  };
-
-  React.useEffect(() => {
-    filterAmiibos(searchText);
-  }, [amiiboList, shouldShowOwned, shouldShowUnowned, sortBy, isAscending]);
-
-  React.useEffect(() => {
-    if (user !== null) {
-      fetch("https://api.amiibolibrary.com/signIn", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user: user,
-        }),
-      })
-        .then(() => {
-          return fetch(`https://api.amiibolibrary.com/amiibo/${user.email}`, {
+    // Create the user in the database if they don't already exist.
+    fetch("https://api.amiibolibrary.com/signIn", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: userObject,
+      }),
+    })
+      // Retrieve user's collected amiibos and update the client side amiibo list.
+      .then(() => {
+        return fetch(
+          `https://api.amiibolibrary.com/amiibo/${userObject.email}`,
+          {
             method: "GET",
-          });
-        })
-        .then(async (response) => ({
-          status: response.status,
-          json: await response.json(),
-        }))
-        .then(({ status, json }) => {
-          const newArray = [...amiiboList];
-          for (let i = 0; i < amiiboList.length; i++) {
-            if (
+          },
+        );
+      })
+      .then(async (response) => ({
+        status: response.status,
+        collectedAmiiboIds: await response.json(),
+      }))
+      .then(({ status, collectedAmiiboIds }) => {
+        setAmiiboList((prevAmiiboList) => {
+          const newAmiiboList = [...prevAmiiboList].map((amiibo) => ({
+            ...amiibo,
+            collected:
               status === 200 &&
-              json.includes("" + amiiboList[i].head + amiiboList[i].tail)
-            ) {
-              newArray[i].collected = true;
-            } else {
-              newArray[i].collected = false;
-            }
-          }
+              collectedAmiiboIds.includes("" + amiibo.head + amiibo.tail),
+          }));
 
-          const sortedNewArray = [...newArray].sort(amiiboComparator);
+          return newAmiiboList;
+        });
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
-          setAmiiboList(newArray);
-          setFilteredAmiiboList(sortedNewArray);
-        })
-        .catch((e) => console.error(e));
-    }
-  }, [user]);
+  const handleSignOut = React.useCallback(() => {
+    setUser(null);
+  }, []);
 
+  // Retrieve all amiibos from the third party amiibo API.
   React.useEffect(() => {
     fetch("https://amiiboapi.com/api/amiibo/?showusage")
       .then((response) => response.json())
@@ -192,10 +203,8 @@ function App() {
         const figures = json.amiibo.filter(
           (amiibo) => amiibo.type === "Figure",
         );
-        const sortedFigures = [...figures].sort(amiiboComparator);
 
         setAmiiboList(figures);
-        setFilteredAmiiboList(sortedFigures);
       })
       .catch((e) => console.error(e));
   }, []);
@@ -208,16 +217,18 @@ function App() {
     script.setAttribute("async", "true");
     script.setAttribute("defer", "true");
     script.addEventListener("load", () => {
+      // Initialize must only be called once. https://developers.google.com/identity/gsi/web/reference/js-reference
       window.google.accounts.id.initialize({
         client_id:
           "551904080519-u8me401rq4adum4bvqnafig5dn2e2095.apps.googleusercontent.com",
-        callback: handleCallbackResponse,
+        callback: handleGoogleResponse,
       });
 
       setIsGoogleSignInInitialized(true);
     });
+
     document.head.appendChild(script);
-  }, []);
+  }, [handleGoogleResponse]);
 
   React.useEffect(() => {
     if (windowDimensions.innerWidth < 1024) {
@@ -264,7 +275,8 @@ function App() {
       <NavBar isDesktop={isDesktop} user={user} handleSignOut={handleSignOut} />
       {!isDesktop && (
         <MobileNavBar
-          filterAmiibos={filterAmiibos}
+          searchString={searchString}
+          setSearchString={setSearchString}
           setIsAscending={setIsAscending}
           setSortBy={setSortBy}
           isSignedIn={user !== null}
@@ -289,9 +301,10 @@ function App() {
             amiiboBackgroundColors,
             setAmiiboBackgroundColor,
             isDesktop,
+            searchString,
+            setSearchString,
             setSortBy,
             setIsAscending,
-            filterAmiibos,
             isAddRemoveEnabled,
             setIsAddRemoveEnabled,
             toggleSelectedAmiiboCollection,

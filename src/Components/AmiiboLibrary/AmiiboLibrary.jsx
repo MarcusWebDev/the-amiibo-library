@@ -17,7 +17,8 @@ const AmiiboLibrary = ({
 }) => {
   const {
     filteredAmiiboList,
-    filterAmiibos,
+    searchString,
+    setSearchString,
     setSortBy,
     setIsAscending,
     isDesktop,
@@ -87,7 +88,8 @@ const AmiiboLibrary = ({
             className="search-field"
             type="search"
             placeholder="Search"
-            onChange={(e) => filterAmiibos(e.target.value)}
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
           />
           <SortBySelect setSortBy={setSortBy} isRow={true} />
           <OrderBySelect setIsAscending={setIsAscending} />

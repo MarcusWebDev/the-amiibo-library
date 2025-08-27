@@ -9,7 +9,8 @@ import SortBySelect from "../SortBySelect";
 
 const MobileNavBar = ({
   isSignedIn,
-  filterAmiibos,
+  searchString,
+  setSearchString,
   setIsAscending,
   setSortBy,
   toggleSelectedAmiiboCollection,
@@ -56,10 +57,11 @@ const MobileNavBar = ({
           <>
             <h2 className="header">Page Tools</h2>
             <input
+              className="search-field"
               type="search"
               placeholder="Search"
-              className="search-field"
-              onChange={(e) => filterAmiibos(e.target.value)}
+              value={searchString}
+              onChange={(e) => setSearchString(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && setIsVisible(false)}
             />
           </>
