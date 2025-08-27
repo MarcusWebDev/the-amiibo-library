@@ -1,9 +1,9 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
 import { useOutletContext } from "react-router-dom";
 
 import "./HomePage.scss";
+import "react-multi-carousel/lib/styles.css";
 
 import AmiiboCard from "../AmiiboCard";
 import LargeCarouselItem from "../LargeCarouselItem";
