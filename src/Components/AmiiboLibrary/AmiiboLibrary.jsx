@@ -16,6 +16,7 @@ const AmiiboLibrary = ({
   showOwnedUnowned,
 }) => {
   const {
+    amiiboList,
     filteredAmiiboList,
     searchString,
     setSearchString,
@@ -97,7 +98,7 @@ const AmiiboLibrary = ({
       )}
       <LoadingSpinnerWrapper
         className="loading-container"
-        isLoading={!filteredAmiiboList.length}
+        isLoading={!amiiboList.length}
       >
         <div className="cards-container">
           {filteredAmiiboList.map((amiibo) => (
