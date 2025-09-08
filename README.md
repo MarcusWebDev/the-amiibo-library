@@ -2,7 +2,7 @@
 
 This is the front end for the Amiibo Library, which is a web app for managing your collection of amiibos.
 
-The web app can be found at amiibolibrary.com.
+The web app can be found at [amiibolibrary.com](https://amiibolibrary.com/).
 
 ## How to use
 
