@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# The Amiibo Library
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the front end for The Amiibo Library website found at amiibolibrary.com.
 
-## Available Scripts
+## How to use
 
-In the project directory, you can run:
+### Homepage
+
+On the homepage in the top carousel you can see the 10 most recently released amiibos. Below that you can find the 10 most collected and 10 least collected amiibos. Clicking on any of these amiibos will take you to a page with more details about the amiibo. This is true of all amiibo cards on the website.
+
+### Amiibo Page
+
+This page lists all amiibo that are available through amiiboapi.com. You can use the tools at the top of the page, or in the hamburger menu if you are on mobile, to filter and sort the amiibos.
+
+### My Collection Page
+
+This page shows all amiibo by default, with amiibo you have collected being fully colored and amiibo you have not collected being grayscale. Similarly to the amiibo page, you can filter and sort the amiibo here using the tools at the top of the page, or in the hamburger menu if you are on mobile. If you would like to change the collected status of an amiibo or several amiibos, you can click on the `Add / Remove` button. Clicking this button will enable a mode that will allow you to mark uncollected amiibo as collected, and collected amiibo as uncollected. After you have selected amiibo that you would like to change the collected status of, you can click on `Confirm Changes` to save these changes to the database.
+
+### Amiibo Details Page
+
+Upon clicking on an amiibo card, you will be navigated to the amiibo details page. This page will provide you details about the amiibo, including its original game series, when it was released in different countries, and the amiibo's usage across several different video game consoles. This page also includes a button that will allow you to add the amiibo to or remove the amiibo from your collection.
+
+## Commands
+
+### `npm install`
+
+Installs all dependencies.
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Sets up the development environment as well as starts a server.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `npm predeploy`
 
-### `npm test`
+Builds the project.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `npm deploy`
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Deploys the project to github pages.
