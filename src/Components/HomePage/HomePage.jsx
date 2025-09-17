@@ -9,6 +9,40 @@ import AmiiboCard from "../AmiiboCard";
 import LargeCarouselItem from "../LargeCarouselItem";
 import LoadingSpinnerWrapper from "../LoadingSpinnerWrapper";
 
+const responsiveLarge = {
+  all: {
+    breakpoint: { max: Number.MAX_SAFE_INTEGER, min: 0 },
+    items: 1,
+  },
+};
+
+const responsiveSmall = {
+  largeDesktop: {
+    breakpoint: { max: Number.MAX_SAFE_INTEGER, min: 1450 },
+    items: 6,
+  },
+  desktop: {
+    breakpoint: { max: 1450, min: 1225 },
+    items: 5,
+  },
+  smallDesktop: {
+    breakpoint: { max: 1225, min: 1024 },
+    items: 4,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 750 },
+    items: 3,
+  },
+  smallTablet: {
+    breakpoint: { max: 750, min: 560 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 560, min: 0 },
+    items: 1,
+  },
+};
+
 const HomePage = () => {
   const { amiiboList } = useOutletContext();
   const numToDisplay = 10;
@@ -17,40 +51,6 @@ const HomePage = () => {
     .slice(0, 10);
   const [mostCollected, setMostCollected] = React.useState([]);
   const [leastCollected, setLeastCollected] = React.useState([]);
-
-  const responsiveLarge = {
-    all: {
-      breakpoint: { max: 4000, min: 0 },
-      items: 1,
-    },
-  };
-
-  const responsiveSmall = {
-    largeDesktop: {
-      breakpoint: { max: 4000, min: 1450 },
-      items: 6,
-    },
-    desktop: {
-      breakpoint: { max: 1450, min: 1225 },
-      items: 5,
-    },
-    smallDesktop: {
-      breakpoint: { max: 1225, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 750 },
-      items: 3,
-    },
-    smallTablet: {
-      breakpoint: { max: 750, min: 560 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 560, min: 0 },
-      items: 1,
-    },
-  };
 
   React.useEffect(() => {
     fetch(
@@ -100,69 +100,43 @@ const HomePage = () => {
         </Carousel>
         <h2 className="collection-header">Most Collected</h2>
         <Carousel responsive={responsiveSmall}>
-          {amiiboList
-            .filter((amiibo) =>
-              mostCollected.some(
-                (MCAmiibo) =>
-                  MCAmiibo.external_id == "" + amiibo.head + amiibo.tail,
-              ),
-            )
-            .map((amiibo) => {
-              let count;
-              for (let i = 0; i < mostCollected.length; i++) {
-                if (
-                  mostCollected[i].external_id ==
-                  "" + amiibo.head + amiibo.tail
-                ) {
-                  count = mostCollected[i].count;
-                  break;
-                }
-              }
-
-              return { ...amiibo, count: count };
-            })
-            .sort((a, b) => b.count - a.count)
-            .map((amiibo) => {
-              return (
-                <AmiiboCard
-                  amiibo={amiibo}
-                  key={"" + amiibo.head + amiibo.tail}
-                />
+          {mostCollected
+            .map((MCAmiibo) => {
+              const amiiboData = amiiboList.find(
+                (amiibo) =>
+                  MCAmiibo.external_id === "" + amiibo.head + amiibo.tail,
               );
-            })}
+
+              return (
+                amiiboData && (
+                  <AmiiboCard
+                    amiibo={amiiboData}
+                    key={"" + amiiboData.head + amiiboData.tail}
+                  />
+                )
+              );
+            })
+            .filter((amiiboCard) => amiiboCard)}
         </Carousel>
         <h2 className="collection-header">Least Collected</h2>
         <Carousel responsive={responsiveSmall}>
-          {amiiboList
-            .filter((amiibo) =>
-              leastCollected.some(
-                (LCAmiibo) =>
-                  LCAmiibo.external_id == "" + amiibo.head + amiibo.tail,
-              ),
-            )
-            .map((amiibo) => {
-              let count;
-              for (let i = 0; i < leastCollected.length; i++) {
-                if (
-                  leastCollected[i].external_id ==
-                  "" + amiibo.head + amiibo.tail
-                ) {
-                  count = leastCollected[i].count;
-                  break;
-                }
-              }
-
-              return { ...amiibo, count: count };
-            })
-            .sort((a, b) => a.count - b.count)
-            .map((amiibo) => {
-              return (
-                <AmiiboCard
-                  amiibo={amiibo}
-                  key={"" + amiibo.head + amiibo.tail}
-                />
+          {leastCollected
+            .map((LCAmiibo) => {
+              const amiiboData = amiiboList.find(
+                (amiibo) =>
+                  LCAmiibo.external_id === "" + amiibo.head + amiibo.tail,
               );
-            })}
+
+              return (
+                amiiboData && (
+                  <AmiiboCard
+                    amiibo={amiiboData}
+                    key={"" + amiiboData.head + amiiboData.tail}
+                  />
+                )
+              );
+            })
+            .filter((amiiboCard) => amiiboCard)}
         </Carousel>
       </LoadingSpinnerWrapper>
     </div>
